@@ -128,9 +128,19 @@ android:layout_height="match_parent">
             android:text="Join House" />
     </RadioGroup>
 
+    <EditText
+        android:id="@+id/enterHouseID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:ems="10"
+        android:hint="House ID"
+        android:inputType="numberPassword"
+        android:visibility="gone"/>
+
     <Button
-        android:id="@+id/RegistrationRegisterBtn"
-        android:onClick="addNewUser"
+        android:id="@+id/registerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
