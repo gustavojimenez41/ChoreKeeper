@@ -10,7 +10,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class Home extends AppCompatActivity {
-    String users[] = new String [] {"12    User_1","5      User_2"};
+    String users[] = new String [] {"12    Usr_1","5      User_2"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
