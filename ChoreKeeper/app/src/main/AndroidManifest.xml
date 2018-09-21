@@ -20,7 +20,8 @@
         <activity
             android:name=".Home"
             android:exported="true" />
-        <activity android:name=".User1"></activity>
+        <activity android:name=".User1" />
+        <activity android:name=".UserDetails"></activity>
     </application>
 
 </manifest>

@@ -1,8 +1,11 @@
 package com.example.gustavojimenez.chorekeeper;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 public class Home extends AppCompatActivity {
@@ -23,6 +26,15 @@ public class Home extends AppCompatActivity {
 
         userAdapter userAdapter = new userAdapter(this, users, scores);
         userListView.setAdapter(userAdapter);
+
+        userListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent showDetailActivity = new Intent(getApplicationContext(), UserDetails.class);
+                showDetailActivity.putExtra("com.example.gustavojimenez.USER_INDEX",i);
+                startActivity(showDetailActivity);
+            }
+        });
 
 
 
