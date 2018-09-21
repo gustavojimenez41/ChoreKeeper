@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">ChoreKeeper</string>
+
+    <string-array name="users">
+        <item>user1</item>
+        <item>user2</item>
+        <item>user3</item>
+        <item>user4</item>
+    </string-array>
+
+    <string-array name="scores">
+        <item>12</item>
+        <item>05</item>
+        <item>07</item>
+        <item>24</item>
+    </string-array>
+
+
 </resources>

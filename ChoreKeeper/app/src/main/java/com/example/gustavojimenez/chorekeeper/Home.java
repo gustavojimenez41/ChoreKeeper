@@ -1,29 +1,35 @@
 package com.example.gustavojimenez.chorekeeper;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.res.Resources;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Adapter;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class Home extends AppCompatActivity {
-    String users[] = new String [] {"12    Usr_1","5      User_2"};
+
+    ListView userListView;
+    String[] users;
+    String[] scores;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        ListView listView = (ListView) findViewById(R.id.listView);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,users);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Toast.makeText(Home.this,users[position],Toast.LENGTH_SHORT).show();
-            }
-        });
+        Resources res = getResources();
+        userListView = (ListView) findViewById(R.id.userListView);
+        users = res.getStringArray(R.array.users);
+        scores = res.getStringArray(R.array.scores);
+
+        userAdapter userAdapter = new userAdapter(this, users, scores);
+        userListView.setAdapter(userAdapter);
+
+
+
+
+
+
+
+
     }
 }

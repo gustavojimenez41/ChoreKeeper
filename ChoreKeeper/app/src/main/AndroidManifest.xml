@@ -17,8 +17,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".Register" />
-        <activity android:name=".Home"
-            android:exported="true"/>
+        <activity
+            android:name=".Home"
+            android:exported="true" />
+        <activity android:name=".User1"></activity>
     </application>
 
 </manifest>
