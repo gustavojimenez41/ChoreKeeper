@@ -31,7 +31,6 @@ public class UserDetails extends AppCompatActivity {
             case 0: return R.drawable.u1;
             case 1: return R.drawable.user2;
             case 2: return R.drawable.user3;
-            case 3: return R.drawable.user4;
             default: return -1;
         }
     }
