@@ -21,7 +21,15 @@
             android:name=".Home"
             android:exported="true" />
         <activity android:name=".User1" />
-        <activity android:name=".UserDetails"></activity>
+        <activity android:name=".UserDetails" />
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".Home">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.gustavojimenez.chorekeeper.Home" />
+        </activity>
     </application>
 
 </manifest>

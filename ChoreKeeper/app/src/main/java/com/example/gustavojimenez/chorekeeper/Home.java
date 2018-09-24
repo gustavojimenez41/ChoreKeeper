@@ -44,4 +44,9 @@ public class Home extends AppCompatActivity {
 
 
     }
+
+    public void goToSettings(View view) {
+        Intent intent = new Intent(Home.this, SettingsActivity.class);
+        startActivity(intent);
+    }
 }
