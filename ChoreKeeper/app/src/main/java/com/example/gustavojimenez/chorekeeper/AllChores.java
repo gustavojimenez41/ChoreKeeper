@@ -6,14 +6,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class Rewards extends AppCompatActivity {
-    Button allChores, myChores, home;
+public class AllChores extends AppCompatActivity {
+    Button myChores, rewards, home;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rewards);
+        setContentView(R.layout.activity_all_chores);
         home = findViewById(R.id.house_button);
-        allChores = findViewById(R.id.allChores);
+        rewards = findViewById(R.id.rewards);
         myChores = findViewById(R.id.myChores);
 
         home.setOnClickListener(new View.OnClickListener()
@@ -21,17 +21,17 @@ public class Rewards extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                Intent intent = new Intent(Rewards.this, Home.class);
+                Intent intent = new Intent(AllChores.this, Home.class);
                 startActivity(intent);
                 finish();
             }
         });
-        allChores.setOnClickListener(new View.OnClickListener()
+        rewards.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                Intent intent = new Intent(Rewards.this, AllChores.class);
+                Intent intent = new Intent(AllChores.this, Rewards.class);
                 startActivity(intent);
                 finish();
             }
@@ -41,11 +41,10 @@ public class Rewards extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                Intent intent = new Intent(Rewards.this, MyChores.class);
+                Intent intent = new Intent(AllChores.this, MyChores.class);
                 startActivity(intent);
                 finish();
             }
         });
     }
 }
-

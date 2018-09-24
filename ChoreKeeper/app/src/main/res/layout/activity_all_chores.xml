@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.gustavojimenez.chorekeeper.Rewards">
-
+    tools:context="com.example.gustavojimenez.chorekeeper.AllChores">
     <ListView
-        android:id="@+id/rewardsListView"
+        android:id="@+id/allChoresListView"
         android:layout_width="368dp"
         android:layout_height="304dp"
         android:layout_marginBottom="8dp"
@@ -38,14 +37,14 @@
         app:layout_constraintVertical_bias="0.982" />
 
     <TextView
-        android:id="@+id/rewardsTitle"
+        android:id="@+id/allChoresTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Rewards"
+        android:text="All Chores"
         android:textSize="36sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -105,14 +104,12 @@
 
 
     <Button
-        android:id="@+id/createRewards"
+        android:id="@+id/createChore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
-        android:text="Create Reward"
+        android:text="Create Chore"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 </android.support.constraint.ConstraintLayout>
-

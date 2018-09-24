@@ -24,6 +24,8 @@ public class Home extends AppCompatActivity {
         userListView = (ListView) findViewById(R.id.userListView);
         users = res.getStringArray(R.array.users);
         scores = res.getStringArray(R.array.scores);
+        allChores = findViewById(R.id.all_chores);
+        myChores = findViewById(R.id.my_chores);
         rewards = findViewById(R.id.Rewards);
         userAdapter userAdapter = new userAdapter(this, users, scores);
         userListView.setAdapter(userAdapter);
@@ -47,6 +49,28 @@ public class Home extends AppCompatActivity {
                 finish();
             }
         });
+        allChores.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(Home.this, AllChores.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        myChores.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(Home.this, MyChores.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
 
     }
 
