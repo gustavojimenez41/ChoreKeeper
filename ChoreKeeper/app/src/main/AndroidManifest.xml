@@ -30,6 +30,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.gustavojimenez.chorekeeper.Home" />
         </activity>
+        <activity android:name=".Rewards"></activity>
     </application>
 
 </manifest>

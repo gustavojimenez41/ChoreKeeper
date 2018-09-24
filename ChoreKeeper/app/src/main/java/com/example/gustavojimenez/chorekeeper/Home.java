@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 public class Home extends AppCompatActivity {
@@ -13,7 +14,7 @@ public class Home extends AppCompatActivity {
     ListView userListView;
     String[] users;
     String[] scores;
-
+    Button allChores, myChores, rewards;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,7 +24,7 @@ public class Home extends AppCompatActivity {
         userListView = (ListView) findViewById(R.id.userListView);
         users = res.getStringArray(R.array.users);
         scores = res.getStringArray(R.array.scores);
-
+        rewards = findViewById(R.id.Rewards);
         userAdapter userAdapter = new userAdapter(this, users, scores);
         userListView.setAdapter(userAdapter);
 
@@ -36,12 +37,16 @@ public class Home extends AppCompatActivity {
             }
         });
 
-
-
-
-
-
-
+        rewards.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(Home.this, Rewards.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
     }
 
