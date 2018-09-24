@@ -32,7 +32,9 @@
         </activity>
         <activity android:name=".Rewards" />
         <activity android:name=".AllChores" />
-        <activity android:name=".MyChores"></activity>
+        <activity android:name=".MyChores" />
+        <activity android:name=".CreateChore" />
+        <activity android:name=".CreateReward"></activity>
     </application>
 
 </manifest>

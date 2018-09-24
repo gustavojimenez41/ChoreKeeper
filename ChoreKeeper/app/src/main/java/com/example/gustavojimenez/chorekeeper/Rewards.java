@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class Rewards extends AppCompatActivity {
-    Button allChores, myChores, home;
+    Button allChores, myChores, home, createRewards;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -15,7 +15,17 @@ public class Rewards extends AppCompatActivity {
         home = findViewById(R.id.house_button);
         allChores = findViewById(R.id.allChores);
         myChores = findViewById(R.id.myChores);
-
+        createRewards = findViewById(R.id.createRewards);
+        createRewards.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(Rewards.this, CreateReward.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         home.setOnClickListener(new View.OnClickListener()
         {
             @Override
