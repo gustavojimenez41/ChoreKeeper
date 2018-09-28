@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.google.firebase.FirebaseError;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -16,27 +17,33 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.FirebaseDatabase;
+
 import android.support.annotation.NonNull;
 import android.util.*;
 import android.widget.Toast;
 
 public class Register extends AppCompatActivity {
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "This is it:";
 
     RadioButton joinHouse, createHouse;
     EditText joinHouseID;
     Button registerButton;
     EditText uname;
     private FirebaseUser mfirebaseuser;
-    private DatabaseReference mdbref;
+    private DatabaseReference dbref;
     private FirebaseAuth mfirebaseauth;
+    FirebaseDatabase db = FirebaseDatabase.getInstance();
 
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         registerButton = findViewById(R.id.registerButton);
@@ -45,6 +52,11 @@ public class Register extends AppCompatActivity {
         createHouse = findViewById(R.id.createHouse);
 
         mfirebaseauth = FirebaseAuth.getInstance();
+
+        if(mfirebaseauth.getCurrentUser()!=null)
+        {
+            signOut();
+        }
 
         joinHouse.setOnClickListener(new View.OnClickListener()
         {
@@ -70,50 +82,70 @@ public class Register extends AppCompatActivity {
             public void onClick(View view)
             {
 
-                String username = findViewById(R.id.enterUsername).toString();
-                String pass = findViewById(R.id.enterPassword).toString();
-                String mail = findViewById(R.id.enterEmail).toString();
 
-                createNewUser(username,pass,mail);
+                String username = ((EditText)findViewById(R.id.enterUsername)).getText().toString();
 
-                Intent intent = new Intent(Register.this, Home.class);
-                startActivity(intent);
-                finish();
+                String pass = ((EditText)findViewById(R.id.enterPassword)).getText().toString();
+                String mail = ((EditText)findViewById(R.id.enterEmail)).getText().toString();
+
+                int valid = createNewUser(username,pass,mail);
+
+                if(valid == 1)
+                {
+                    Intent intent = new Intent(Register.this, Home.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else
+                {
+                    //authentication failed
+                    //want to empty the text fields and notify the user
+                    //the reason for failure
+                    //right now a toast pops up with the error message
+                    //at least it is supposed to
+                    //it only works sometimes haven't figured that one out
+                }
+
             }
         });
     }
 
 
-    private void createNewUser(String username, String password, String email)
+    private int createNewUser(String username, String password, String email)
     {
 
-
         //create user with firebase's authentication system
+        FirebaseUser user;
 
-        mfirebaseauth.getInstance().createUserWithEmailAndPassword(email,password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        mfirebaseauth.createUserWithEmailAndPassword(email,password)
+
+                .addOnCompleteListener(Register.this, new OnCompleteListener<AuthResult>()
+                {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
+                    public void onComplete(@NonNull Task<AuthResult> task)
+                    {
+                        if (task.isSuccessful())
+                        {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mfirebaseauth.getCurrentUser();
 
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(Register.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Register.this, "Account Created",
+                                    Toast.LENGTH_LONG).show();
 
                         }
-
-
+                        else
+                        {
+                            // If sign in fails, display a message to the user.
+                            Log.e(TAG, "createUserWithEmail:failure", task.getException());
+                            Toast.makeText(Register.this, "Authentication failed." + task.getException().getMessage(),
+                                    Toast.LENGTH_LONG).show();
+                         }
 
                     }
                 });
 
-
-        FirebaseUser user = mfirebaseauth.getCurrentUser();
+        user = mfirebaseauth.getCurrentUser();
 
         // Updates the user attributes:
 
@@ -135,16 +167,22 @@ public class Register extends AppCompatActivity {
 
 
             //add the additional attributes to the database
-            //need someway to genrate the housecode then put it there
+            //need someway to generate the housecode then put it there
             User User = new User(user.getUid(),"housecode");
-            mdbref.child("users").child(User.getID()).setValue(User);
+            dbref = db.getReference("users");
+            dbref.child(User.getID()).setValue(User);
+
+            return 1;
         }
+        else
+            return 0;
 
 
+    }
 
-
-
-
+    private void signOut()
+    {
+        mfirebaseauth.signOut();
     }
 }
 
