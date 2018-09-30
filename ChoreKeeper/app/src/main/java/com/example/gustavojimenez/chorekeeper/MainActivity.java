@@ -66,10 +66,8 @@ public class MainActivity extends AppCompatActivity {
 
 
                 String pass = ((EditText)findViewById(R.id.enterPassword)).getText().toString();
-                String mail = ((EditText)findViewById(R.id.enterUsername)).getText().toString();
+                String mail = ((EditText)findViewById(R.id.enterEmail)).getText().toString();
                 signIn(mail, pass);
-                user = firebaseauth.getCurrentUser();
-
                 user = firebaseauth.getCurrentUser();
 
                 //if the sign in works, go to home page
