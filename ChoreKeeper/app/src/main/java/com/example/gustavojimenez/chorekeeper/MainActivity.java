@@ -69,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
                 signIn(mail, pass);
                 user = firebaseauth.getCurrentUser();
 
+                user = firebaseauth.getCurrentUser();
+
                 //if the sign in works, go to home page
                 if(user!=null)
                 {
@@ -84,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void signIn(String email, String password)
     {
-
+        firebaseauth = FirebaseAuth.getInstance();
 
         firebaseauth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>()

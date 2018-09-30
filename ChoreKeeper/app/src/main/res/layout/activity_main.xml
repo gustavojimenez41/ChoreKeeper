@@ -14,13 +14,13 @@
         android:paddingTop="40sp">
 
         <EditText
-            android:id="@+id/enterUsername"
+            android:id="@+id/enterEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10sp"
             android:layout_marginRight="10sp"
             android:ems="10"
-            android:hint="Username"
+            android:hint="Email"
             android:inputType="textPersonName" />
 
         <EditText
