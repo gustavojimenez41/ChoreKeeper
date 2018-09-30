@@ -25,12 +25,13 @@ import android.widget.Toast;
 
 public class Register extends AppCompatActivity {
 
-    private static final String TAG = "This is it:";
+    private static final String TAG = "Register:";
 
     RadioButton joinHouse, createHouse;
     EditText joinHouseID;
     Button registerButton;
     EditText uname;
+
     private FirebaseUser mfirebaseuser;
     private DatabaseReference dbref;
     private FirebaseAuth mfirebaseauth;

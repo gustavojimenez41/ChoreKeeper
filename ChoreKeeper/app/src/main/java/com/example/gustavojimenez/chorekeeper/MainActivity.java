@@ -25,10 +25,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
 
+
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
         //firebaseauth.getInstance();
         //causes a crash
         //working on it
-        user = firebaseauth.getCurrentUser();
+        //user = firebaseauth.getInstance().getCurrentUser();
 
         //go straight to the home page if the user is already signed in
         if(user!=null)
@@ -38,8 +43,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
         registerButton = findViewById(R.id.registerButton);
         registerButton.setOnClickListener(new View.OnClickListener()
         {
@@ -80,15 +84,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void signIn(String email, String password)
     {
+
+
         firebaseauth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>()
                 {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task)
                     {
-                        FirebaseUser user = firebaseauth.getCurrentUser();
                         if(task.isSuccessful())
                         {
+                            FirebaseUser user = firebaseauth.getCurrentUser();
                             Toast.makeText(MainActivity.this, "Hello "+user.getDisplayName(),
                                     Toast.LENGTH_LONG).show();
                         }
