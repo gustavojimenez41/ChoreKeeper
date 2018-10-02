@@ -18,6 +18,8 @@ import com.google.firebase.auth.FirebaseUser;
 public class MainActivity extends AppCompatActivity {
     Button registerButton;
     Button login;
+
+    //these two are for authentication system
     FirebaseAuth firebaseauth;
     FirebaseUser user;
 
@@ -36,9 +38,8 @@ public class MainActivity extends AppCompatActivity {
         //user = firebaseauth.getInstance().getCurrentUser();
 
         //go straight to the home page if the user is already signed in
-        if(user!=null)
+        if(user!=null)//this is sometimes working
         {
-
             Intent intent = new Intent(MainActivity.this,Home.class);
             startActivity(intent);
             finish();
@@ -67,8 +68,6 @@ public class MainActivity extends AppCompatActivity {
                 String pass = ((EditText)findViewById(R.id.enterPassword)).getText().toString();
                 String mail = ((EditText)findViewById(R.id.enterEmail)).getText().toString();
                 signIn(mail, pass);
-                user = firebaseauth.getCurrentUser();
-
                 user = firebaseauth.getCurrentUser();
 
                 //if the sign in works, go to home page
