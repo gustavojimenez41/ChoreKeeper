@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "836166603397",
+    "firebase_url": "https://chorekeeper-85730.firebaseio.com",
+    "project_id": "chorekeeper-85730",
+    "storage_bucket": "chorekeeper-85730.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:836166603397:android:6e20ff0d3d1c0174",
+        "android_client_info": {
+          "package_name": "com.example.gustavojimenez.chorekeeper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "836166603397-ljiddomjsuriib007c3vl9ov8o538gjc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.gustavojimenez.chorekeeper",
+            "certificate_hash": "2a4d6e25886ba5d83276f4fbf4e8d2c3df455460"
+          }
+        },
+        {
+          "client_id": "836166603397-5td84pab7bqbr3c1pcubr9307mknvcdf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgWOdpHdSVaxi6jpuk3qocw50daGfZBcw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "836166603397-5td84pab7bqbr3c1pcubr9307mknvcdf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
