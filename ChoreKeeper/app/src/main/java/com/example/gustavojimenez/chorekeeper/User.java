@@ -10,22 +10,25 @@ public class User {
     private String houseCode;
 
     //array of chores assigned to the user identified by an ID
-    private int[] chores;
+    //private int[] chores; pretty sure this isnt necessary, Ill know when I implement addChore
     private int points = 0;
+    private String authID;
 
 
     User(){};
 
-    User(String ID, String code)
+    User(String ID, String code, String authID)
     {
         this.userID = ID;
         this.houseCode = code;
+        this.authID = authID;
     }
 
+    //must have a getter for every attribute that we want to save in the database
     public String getID()
     {
         return userID;
     }
-
-
+    public String getAuthID() { return authID; }
+    public int getPoints() {return points;}
 }

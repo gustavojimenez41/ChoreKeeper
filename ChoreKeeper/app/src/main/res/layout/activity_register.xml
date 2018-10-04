@@ -49,42 +49,6 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/enterLastName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:ems="10"
-            android:hint="Last Name"
-            android:inputType="textPersonName"
-            android:singleLine="false"
-            android:textAlignment="viewStart"
-            android:textSize="18sp" />
-
-        <EditText
-            android:id="@+id/enterFirstName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:ems="10"
-            android:hint="First Name"
-            android:inputType="textPersonName"
-            android:singleLine="false"
-            android:textAlignment="viewStart"
-            android:textSize="18sp" />
-
-        <EditText
-            android:id="@+id/enterPhoneNumber"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:ems="10"
-            android:hint="Phone #"
-            android:inputType="phone" />
-
-        <EditText
             android:id="@+id/enterEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -125,6 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:checked="true"
                 android:text="Join House" />
         </RadioGroup>
 
@@ -137,7 +102,7 @@
             android:ems="10"
             android:hint="House ID"
             android:inputType="numberPassword"
-            android:visibility="gone"/>
+            android:visibility="visible" />
 
         <Button
             android:id="@+id/registerButton"

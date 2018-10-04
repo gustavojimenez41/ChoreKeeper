@@ -41,8 +41,10 @@ public class CreateReward extends AppCompatActivity {
                 int points = Integer.parseInt(((EditText)findViewById(R.id.reward)).getText().toString());
                 String comments = ((EditText)findViewById(R.id.RewardComments)).getText().toString();
 
-                //change this to generate a unique ID
-                createReward(name, points, "1", comments);
+
+                //havent finished createReward yet
+                //String rewardCode = Integer.toString(Math.abs(name.hashCode()))
+;               //createReward(name, points, rewardCode, comments);
 
 
                 Intent intent = new Intent(CreateReward.this, Rewards.class);
@@ -66,6 +68,7 @@ public class CreateReward extends AppCompatActivity {
     {
 
         //will change this so that it creates the reward in the path of the house
+        //haven't finished this yet ignore it
 
         dbref = db.getReference("rewards");
 

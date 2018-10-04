@@ -14,14 +14,19 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import android.support.annotation.NonNull;
 import android.util.*;
 import android.widget.Toast;
+
+import static java.lang.Boolean.TRUE;
 
 public class Register extends AppCompatActivity {
 
@@ -30,9 +35,8 @@ public class Register extends AppCompatActivity {
     RadioButton joinHouse, createHouse;
     EditText joinHouseID;
     Button registerButton;
-    EditText uname;
 
-    private FirebaseUser mfirebaseuser;
+
     private DatabaseReference dbref;
     private FirebaseAuth mfirebaseauth;
     FirebaseDatabase db = FirebaseDatabase.getInstance();
@@ -64,7 +68,7 @@ public class Register extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                joinHouseID.setVisibility(View.VISIBLE);
+                joinHouseID.setHint("house code");
             }
         });
 
@@ -73,7 +77,7 @@ public class Register extends AppCompatActivity {
             @Override
             public  void onClick(View view)
             {
-                joinHouseID.setVisibility(View.GONE);
+                joinHouseID.setHint("House Name");
             }
         });
 
@@ -83,40 +87,19 @@ public class Register extends AppCompatActivity {
             public void onClick(View view)
             {
 
-
-                String username = ((EditText)findViewById(R.id.enterUsername)).getText().toString();
-
                 String pass = ((EditText)findViewById(R.id.enterPassword)).getText().toString();
                 String mail = ((EditText)findViewById(R.id.enterEmail)).getText().toString();
 
-                int valid = createNewUser(username,pass,mail);
-
-                if(valid == 1)
-                {
-                    Intent intent = new Intent(Register.this, Home.class);
-                    startActivity(intent);
-                    finish();
-                }
-                else
-                {
-                    //authentication failed
-                    //want to empty the text fields and notify the user
-                    //the reason for failure
-                    //right now a toast pops up with the error message
-                    //at least it is supposed to
-                    //it only works sometimes haven't figured that one out
-                }
+                createNewUser(pass,mail);
 
             }
         });
     }
 
 
-    private int createNewUser(String username, String password, String email)
+    private void createNewUser(String password, String email)
     {
 
-        //create user with firebase's authentication system
-        FirebaseUser user;
 
         mfirebaseauth.createUserWithEmailAndPassword(email,password)
 
@@ -127,12 +110,150 @@ public class Register extends AppCompatActivity {
                     {
                         if (task.isSuccessful())
                         {
-                            // Sign in success, update UI with the signed-in user's information
+
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mfirebaseauth.getCurrentUser();
 
-                            Toast.makeText(Register.this, "Account Created",
-                                    Toast.LENGTH_LONG).show();
+
+
+
+                            //sets the display name to the username given by the user
+                            String username = ((EditText)findViewById(R.id.enterUsername)).getText().toString();
+
+                            UserProfileChangeRequest updates = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(username)
+                                    .build();
+
+                            user.updateProfile(updates)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Log.d(TAG, "User profile updated.");
+                                            }
+                                        }
+                                    });
+
+
+                            //Adds the user to house specified by the user
+                            //or creates a new house based on the name
+                            ValueEventListener checkIfExists = new ValueEventListener()
+                            {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot)
+                                {
+                                    String hCode;
+
+                                    //checks if the user entered a house code or house name
+                                    //and sets hCode accordingly
+                                    joinHouse = findViewById(R.id.joinHouse);
+                                    String hName = ((EditText)findViewById(R.id.enterHouseID)).getText().toString();
+                                    if(!joinHouse.isChecked())
+                                    {
+                                        //hash the name into a code
+                                        hCode = Integer.toString(Math.abs(hName.hashCode()));
+
+                                    }
+                                    else
+                                    {
+                                        hCode = hName;
+                                }
+
+
+                                    //checks if there is a house with the code
+                                    boolean exists = false;
+
+                                    for(DataSnapshot data: dataSnapshot.getChildren())
+                                    {
+
+                                        if (data.getKey().equals(hCode))
+                                        {
+
+                                            exists = true;
+                                        }
+                                    }
+
+
+                                    //now know if the given code exists or not
+                                    FirebaseUser user =  mfirebaseauth.getCurrentUser();
+
+                                    //user wants to join a house
+                                    if(joinHouse.isChecked())
+                                    {
+                                        //the house exists
+                                        if(exists)
+                                        {
+                                            addUserToHouse(hCode,hName);
+
+                                            Toast.makeText(Register.this, "Account Created",
+                                                    Toast.LENGTH_LONG).show();
+
+                                            //everything is fine, go to the home page
+                                            Intent intent = new Intent(Register.this, Home.class);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                        //the house does not exist
+                                        //notify the user and do nothing
+                                        else
+                                        {
+                                            Toast.makeText(Register.this, "Cannot find house with code " + hCode,
+                                                    Toast.LENGTH_LONG).show();
+
+                                            //the user has been created but has not joined a house
+                                            //delete the user so they can register again
+                                            user.delete();
+                                        }
+                                    }
+                                    //the user wants to create a house
+                                    else
+                                    {
+                                        //that code already exists
+                                        //minor issue right now:
+                                        //this could be that 2 names hashed to the name code
+                                        //very low probability of this
+                                        if(exists)
+                                        {
+                                            Toast.makeText(Register.this, "A House with that name already exists",
+                                                    Toast.LENGTH_LONG).show();
+
+                                            //the user has been created but has not joined a house
+                                            //delete the user so they can register again
+                                            user.delete();
+                                        }
+                                        //hCode is a unique house code
+                                        //add the user to the house and go to the home page
+                                        else
+                                        {
+                                            addUserToHouse(hCode,hName);
+
+                                            Toast.makeText(Register.this, "Account Created",
+                                                    Toast.LENGTH_LONG).show();
+
+                                            //everything is fine, go to the home page
+                                            Intent intent = new Intent(Register.this, Home.class);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                    }
+
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError Error)
+                                {
+                                    Toast.makeText(Register.this, "House does not exist",
+                                            Toast.LENGTH_LONG).show();
+
+                                }
+                            };
+
+
+
+                            //adds the listener created above to the database reference, and runs it
+                            dbref = db.getReference("Houses");
+                            dbref.addListenerForSingleValueEvent(checkIfExists);
+
 
                         }
                         else
@@ -146,37 +267,6 @@ public class Register extends AppCompatActivity {
                     }
                 });
 
-        user = mfirebaseauth.getCurrentUser();
-
-        // Updates the user attributes:
-
-        if(user!=null)
-        {
-            UserProfileChangeRequest updates = new UserProfileChangeRequest.Builder()
-                    .setDisplayName(username)
-                    .build();
-
-            user.updateProfile(updates)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                Log.d(TAG, "User profile updated.");
-                            }
-                        }
-                    });
-
-
-            //add the additional attributes to the database
-            //need someway to generate the housecode then put it there
-            User User = new User(user.getUid(),"housecode");
-            dbref = db.getReference("users");
-            dbref.child(User.getID()).setValue(User);
-
-            return 1;
-        }
-        else
-            return 0;
 
 
     }
@@ -184,6 +274,39 @@ public class Register extends AppCompatActivity {
     private void signOut()
     {
         mfirebaseauth.signOut();
+    }
+
+    //adds the user currently signed in to the house given by hCode
+    private void addUserToHouse(String hCode, String name)
+    {
+        //create new user
+        FirebaseUser user = mfirebaseauth.getCurrentUser();
+
+        User newuser = new User(userCode(user),hCode, user.getUid());
+        dbref = db.getReference("Users");
+        dbref.child(newuser.getID()).setValue(newuser);
+
+        //add the user to the house
+        dbref = db.getReference("Houses/" + hCode + "/members");
+        dbref.child(newuser.getID()).setValue(TRUE);
+
+        //only add the name to the house if creating a new house
+        //if hName = hCode, user is joining a house
+        if(!name.equals(hCode))
+        {
+            dbref = db.getReference("Houses/" + hCode + "/name");
+            dbref.setValue(name);
+        }
+
+
+
+    }
+
+    //takes in a user and gives a code based on the username
+    private String userCode(FirebaseUser user)
+    {
+        String username = user.getDisplayName();
+        return Integer.toString(Math.abs(username.hashCode()));
     }
 }
 

@@ -16,25 +16,17 @@ public class Reward
         this.ID = ID;
     }
 
-
     public int getPoints()
     {
         return pointValue;
     }
-
     public String getName()
     {
         return name;
     }
-
     public String getID()
     {
         return ID;
     }
-
-    public String getComments()
-    {
-        return comments;
-
-    }
+    public String getComments() { return comments; }
 }
