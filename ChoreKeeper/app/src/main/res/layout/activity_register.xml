@@ -101,7 +101,7 @@
             android:layout_marginRight="10dp"
             android:ems="10"
             android:hint="House ID"
-            android:inputType="numberPassword"
+            android:inputType="text"
             android:visibility="visible" />
 
         <Button
@@ -110,6 +110,12 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:text="REGISTER" />
+
+        <ProgressBar
+            android:id="@+id/spinner"
+            style="@android:style/Widget.Holo.ProgressBar.Large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

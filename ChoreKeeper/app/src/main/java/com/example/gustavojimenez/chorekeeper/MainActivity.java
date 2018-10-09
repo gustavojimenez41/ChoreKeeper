@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth firebaseauth;
     FirebaseUser user;
 
+    private static final String TAG = "Main Activity: ";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -32,10 +36,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //firebaseauth.getInstance();
-        //causes a crash
-        //working on it
-        //user = firebaseauth.getInstance().getCurrentUser();
+        firebaseauth.getInstance();
+        user = firebaseauth.getInstance().getCurrentUser();
 
         //go straight to the home page if the user is already signed in
         if(user!=null)//this is sometimes working
@@ -53,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             {
                 Intent intent = new Intent(MainActivity.this, Register.class);
                 startActivity(intent);
-                finish();
+                //finish();
             }
         });
         login = findViewById(R.id.loginButton);
@@ -65,18 +67,42 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-                String pass = ((EditText)findViewById(R.id.enterPassword)).getText().toString();
-                String mail = ((EditText)findViewById(R.id.enterEmail)).getText().toString();
-                signIn(mail, pass);
-                user = firebaseauth.getCurrentUser();
+                String pass = ((EditText)findViewById(R.id.enterPasswordMain)).getText().toString();
+                String mail = ((EditText)findViewById(R.id.enterEmailMain)).getText().toString();
 
-                //if the sign in works, go to home page
-                if(user!=null)
+
+                Boolean good = true;
+
+
+                if(TextUtils.isEmpty(pass))
                 {
-                    Intent intent = new Intent(MainActivity.this, Home.class);
-                    startActivity(intent);
-                    finish();
+                    ((EditText)findViewById(R.id.enterPasswordMain)).setError("Cannot be empty");
+                    good = false;
                 }
+                if(TextUtils.isEmpty(mail))
+                {
+                    ((EditText)findViewById(R.id.enterEmailMain)).setError("Cannot be empty");
+                    good = false;
+                }
+                if(good)
+                {
+                    signIn(mail, pass);
+                    user = firebaseauth.getCurrentUser();
+
+                    //if the sign in works, go to home page
+                    if(user!=null)
+                    {
+                        Intent intent = new Intent(MainActivity.this, Home.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                    else
+                    {
+                        Toast.makeText(MainActivity.this, "Username or Password incorrect",
+                                Toast.LENGTH_LONG).show();
+                    }
+                }
+
 
             }
         });

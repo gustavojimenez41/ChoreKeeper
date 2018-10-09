@@ -3,11 +3,14 @@ package com.example.gustavojimenez.chorekeeper;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ProgressBar;
 
 import com.google.firebase.FirebaseError;
 import com.google.firebase.auth.AuthResult;
@@ -35,11 +38,13 @@ public class Register extends AppCompatActivity {
     RadioButton joinHouse, createHouse;
     EditText joinHouseID;
     Button registerButton;
+    private ProgressBar spinner;
 
 
     private DatabaseReference dbref;
-    private FirebaseAuth mfirebaseauth;
+    private FirebaseAuth auth;
     FirebaseDatabase db = FirebaseDatabase.getInstance();
+
 
 
 
@@ -55,10 +60,13 @@ public class Register extends AppCompatActivity {
         joinHouse = findViewById(R.id.joinHouse);
         joinHouseID = findViewById(R.id.enterHouseID);
         createHouse = findViewById(R.id.createHouse);
+        spinner = findViewById(R.id.spinner);
 
-        mfirebaseauth = FirebaseAuth.getInstance();
 
-        if(mfirebaseauth.getCurrentUser()!=null)
+        spinner.setVisibility(View.GONE);
+        auth = FirebaseAuth.getInstance();
+
+        if(auth.getCurrentUser()!=null)
         {
             signOut();
         }
@@ -87,10 +95,43 @@ public class Register extends AppCompatActivity {
             public void onClick(View view)
             {
 
+
+
                 String pass = ((EditText)findViewById(R.id.enterPassword)).getText().toString();
                 String mail = ((EditText)findViewById(R.id.enterEmail)).getText().toString();
+                String user = ((EditText)findViewById(R.id.enterUsername)).getText().toString();
+                String houseID = ((EditText)findViewById(R.id.enterHouseID)).getText().toString();
 
-                createNewUser(pass,mail);
+
+                Boolean good = true;
+
+                if(TextUtils.isEmpty(pass))
+                {
+                    ((EditText)findViewById(R.id.enterPassword)).setError("Cannot be empty");
+                    good = false;
+                }
+                if(TextUtils.isEmpty(mail))
+                {
+                    ((EditText)findViewById(R.id.enterEmail)).setError("Cannot be empty");
+                    good = false;
+                }
+                if(TextUtils.isEmpty(user))
+                {
+                    ((EditText)findViewById(R.id.enterUsername)).setError("Cannot be empty");
+                    good = false;
+                }
+                if(TextUtils.isEmpty(houseID))
+                {
+                    ((EditText)findViewById(R.id.enterHouseID)).setError("Cannot be empty");
+                    good = false;
+                }
+
+                if(good)
+                {
+                    createNewUser(pass,mail);
+                    spinner.setVisibility(view.VISIBLE);
+                }
+
 
             }
         });
@@ -101,7 +142,7 @@ public class Register extends AppCompatActivity {
     {
 
 
-        mfirebaseauth.createUserWithEmailAndPassword(email,password)
+        auth.createUserWithEmailAndPassword(email,password)
 
                 .addOnCompleteListener(Register.this, new OnCompleteListener<AuthResult>()
                 {
@@ -112,7 +153,7 @@ public class Register extends AppCompatActivity {
                         {
 
                             Log.d(TAG, "createUserWithEmail:success");
-                            FirebaseUser user = mfirebaseauth.getCurrentUser();
+                            FirebaseUser user = auth.getCurrentUser();
 
 
 
@@ -175,7 +216,7 @@ public class Register extends AppCompatActivity {
 
 
                                     //now know if the given code exists or not
-                                    FirebaseUser user =  mfirebaseauth.getCurrentUser();
+                                    FirebaseUser user =  auth.getCurrentUser();
 
                                     //user wants to join a house
                                     if(joinHouse.isChecked())
@@ -200,6 +241,8 @@ public class Register extends AppCompatActivity {
                                             Toast.makeText(Register.this, "Cannot find house with code " + hCode,
                                                     Toast.LENGTH_LONG).show();
 
+                                            spinner.setVisibility(View.GONE);
+
                                             //the user has been created but has not joined a house
                                             //delete the user so they can register again
                                             user.delete();
@@ -216,6 +259,8 @@ public class Register extends AppCompatActivity {
                                         {
                                             Toast.makeText(Register.this, "A House with that name already exists",
                                                     Toast.LENGTH_LONG).show();
+
+                                            spinner.setVisibility(View.GONE);
 
                                             //the user has been created but has not joined a house
                                             //delete the user so they can register again
@@ -242,8 +287,10 @@ public class Register extends AppCompatActivity {
                                 @Override
                                 public void onCancelled(DatabaseError Error)
                                 {
-                                    Toast.makeText(Register.this, "House does not exist",
+                                    Toast.makeText(Register.this, "Authentication failed." + task.getException().getMessage(),
                                             Toast.LENGTH_LONG).show();
+
+                                    spinner.setVisibility(View.GONE);
 
                                 }
                             };
@@ -262,6 +309,8 @@ public class Register extends AppCompatActivity {
                             Log.e(TAG, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(Register.this, "Authentication failed." + task.getException().getMessage(),
                                     Toast.LENGTH_LONG).show();
+
+                            spinner.setVisibility(View.GONE);
                          }
 
                     }
@@ -273,16 +322,16 @@ public class Register extends AppCompatActivity {
 
     private void signOut()
     {
-        mfirebaseauth.signOut();
+        auth.signOut();
     }
 
     //adds the user currently signed in to the house given by hCode
     private void addUserToHouse(String hCode, String name)
     {
         //create new user
-        FirebaseUser user = mfirebaseauth.getCurrentUser();
+        FirebaseUser user = auth.getCurrentUser();
 
-        User newuser = new User(userCode(user),hCode, user.getUid());
+        User newuser = new User(user.getUid(),hCode);
         dbref = db.getReference("Users");
         dbref.child(newuser.getID()).setValue(newuser);
 
@@ -302,12 +351,6 @@ public class Register extends AppCompatActivity {
 
     }
 
-    //takes in a user and gives a code based on the username
-    private String userCode(FirebaseUser user)
-    {
-        String username = user.getDisplayName();
-        return Integer.toString(Math.abs(username.hashCode()));
-    }
 }
 
 

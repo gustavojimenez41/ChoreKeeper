@@ -70,7 +70,7 @@ public class CreateReward extends AppCompatActivity {
         //will change this so that it creates the reward in the path of the house
         //haven't finished this yet ignore it
 
-        dbref = db.getReference("rewards");
+        dbref = db.getReference("Rewards");
 
         Reward r = new Reward(name, comments, points, ID);
         dbref = db.getReference("rewards");

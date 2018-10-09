@@ -15,15 +15,45 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
+        checkTypes {
+            javaCompileOptions.annotationProcessorOptions.
+                    classNames.add("org.checkerframework.checker.nullness.NullnessChecker")
+            javaCompileOptions.annotationProcessorOptions.arguments.put("warns", "")
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
+
+configurations {
+    checkerFrameworkAnnotatedJDK {
+        description = 'a copy of JDK classes with Checker Framework type qualifers inserted'
+    }
+}
+
+gradle.projectsEvaluated {
+    tasks.withType(JavaCompile).all { compile ->
+        if (compile.name.contains("CheckTypes")) {
+            compile.options.compilerArgs += [
+                    "-Xbootclasspath/p:${configurations.checkerFrameworkAnnotatedJDK.asPath}"
+            ]
+        }
+    }
+}
+
 
 dependencies {
 
 
-    //implementation "com.google.errorprone:error_prone_core:2.3.0"
-    //classpath "net.ltgt.gradle:gradle-errorprone-plugin:0.0.13"
-    //spotbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.7.1'
+
+    ext.checkerFrameworkVersion = '2.5.6'
+    implementation "org.checkerframework:checker-qual-android:${checkerFrameworkVersion}"
+    annotationProcessor "org.checkerframework:checker:${checkerFrameworkVersion}"
+    checkerFrameworkAnnotatedJDK "org.checkerframework:jdk8:${checkerFrameworkVersion}"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:26.1.0'
@@ -42,22 +72,3 @@ dependencies {
 }
 
 apply plugin: 'com.google.gms.google-services'
-//apply plugin: "com.github.spotbugs" version "1.6.4"
-//apply plugin: "net.ltgt.errorprone" version "2.3.0"
-
-/*
-sourceSets {
-    // we define `main` sourceSet here, so SpotBugs Gradle Plugin generates `spotbugsMain` task
-    main {
-        java.srcDirs = ['src/main/java']
-    }
-}
-
-tasks.withType(com.github.spotbugs.SpotBugsTask) {
-    // configure automatically generated tasks
-}
-
-spotbugs {
-    toolVersion = '3.1.7'
-}
-*/

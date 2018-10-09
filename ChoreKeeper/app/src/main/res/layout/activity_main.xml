@@ -14,7 +14,7 @@
         android:paddingTop="40sp">
 
         <EditText
-            android:id="@+id/enterEmail"
+            android:id="@+id/enterEmailMain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10sp"
@@ -24,7 +24,7 @@
             android:inputType="textPersonName" />
 
         <EditText
-            android:id="@+id/enterPassword"
+            android:id="@+id/enterPasswordMain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10sp"
