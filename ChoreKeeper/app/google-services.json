@@ -31,6 +31,14 @@
           }
         },
         {
+          "client_id": "836166603397-7ujc1eerfsu1q7c6mar97vd021dma535.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.gustavojimenez.chorekeeper",
+            "certificate_hash": "a860f8de16f813e14e40f0b3e9e796f80d2f820f"
+          }
+        },
+        {
           "client_id": "836166603397-5td84pab7bqbr3c1pcubr9307mknvcdf.apps.googleusercontent.com",
           "client_type": 3
         }
