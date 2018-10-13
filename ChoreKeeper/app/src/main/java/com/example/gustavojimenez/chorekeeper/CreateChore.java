@@ -22,7 +22,7 @@ public class CreateChore extends AppCompatActivity {
 
     Button createChore;
    // String chorename = ((EditText)findViewById(R.id.chorename)).getText().toString();
-    //int point_value = ((EditText)findViewById(R.id.points)).getInputType();
+   // float point_value = ((EditText)findViewById(R.id.points)).getAlpha();
     //String description = ((EditText)findViewById(R.id.description)).getText().toString();
 
     private DatabaseReference dbref;
@@ -40,7 +40,7 @@ public class CreateChore extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-
+                String name = ((EditText)findViewById(R.id.chorename)).getText().toString();
                 Intent intent = new Intent(CreateChore.this, AllChores.class);
                 startActivity(intent);
                 finish();
