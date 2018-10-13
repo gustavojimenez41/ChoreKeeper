@@ -9,10 +9,28 @@
     </string-array>
 
     <string-array name="scores">
-        <item>12</item>
-        <item>05</item>
-        <item>07</item>
-        <item>24</item>
+    <item>12</item>
+    <item>05</item>
+    <item>07</item>
+    <item>24</item>
+</string-array>
+    <string-array name="all_chores">
+        <item>clean kitchen</item>
+        <item>walk dog</item>
+        <item>take out trash</item>
+        <item>cook dinner</item>
+    </string-array>
+    <string-array name="all_chores_scores">
+        <item>15</item>
+        <item>5</item>
+        <item>4</item>
+        <item>7</item>
+    </string-array>
+    <string-array name="all_chores_scores_desciptions">
+        <item>wipe down counters and do the dishes</item>
+        <item>walk the dog around the block</item>
+        <item>take out all the trash in the house</item>
+        <item>cook a delicious dinner</item>
     </string-array>
     <string name="title_activity_settings">Settings</string>
 
