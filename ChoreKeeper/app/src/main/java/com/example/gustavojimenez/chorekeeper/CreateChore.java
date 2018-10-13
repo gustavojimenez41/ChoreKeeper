@@ -1,7 +1,11 @@
 package com.example.gustavojimenez.chorekeeper;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,6 +20,10 @@ import static java.lang.Boolean.TRUE;
 
 public class CreateChore extends AppCompatActivity {
 
+    Button createChore;
+   // String chorename = ((EditText)findViewById(R.id.chorename)).getText().toString();
+    //int point_value = ((EditText)findViewById(R.id.points)).getInputType();
+    //String description = ((EditText)findViewById(R.id.description)).getText().toString();
 
     private DatabaseReference dbref;
     FirebaseDatabase db = FirebaseDatabase.getInstance();
@@ -24,6 +32,20 @@ public class CreateChore extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_chore);
+
+        createChore = findViewById(R.id.createChoreButton);
+
+        createChore.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+
+                Intent intent = new Intent(CreateChore.this, AllChores.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
 
@@ -31,13 +53,16 @@ public class CreateChore extends AppCompatActivity {
 
     public void createChore(String name, int points, String comments)
     {
+
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
         String uname = user.getDisplayName();
 
         String ID = Integer.toString(Math.abs(name.hashCode()));
-
-        Chore c = new Chore(name, comments, points, ID);
+        name = ((EditText)findViewById(R.id.chorename)).getText().toString();
+        points = ((EditText)findViewById(R.id.points)).getInputType();
+        comments = ((EditText)findViewById(R.id.description)).getText().toString();
+        final Chore c = new Chore(name, comments, points, ID);
 
 
         //adds the chore to the list of chores
@@ -66,6 +91,8 @@ public class CreateChore extends AppCompatActivity {
 
             }
         };
+
+
 
 
         dbref = db.getReference("Users/"+user.getUid()+"/houseCode");
