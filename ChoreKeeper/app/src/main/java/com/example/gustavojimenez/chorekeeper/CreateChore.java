@@ -41,6 +41,7 @@ public class CreateChore extends AppCompatActivity {
             public void onClick(View view)
             {
                 String name = ((EditText)findViewById(R.id.chorename)).getText().toString();
+
                 Intent intent = new Intent(CreateChore.this, AllChores.class);
                 startActivity(intent);
                 finish();

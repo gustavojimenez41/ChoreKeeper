@@ -1,83 +1,72 @@
 package com.example.gustavojimenez.chorekeeper;
 
-import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+
 public class AllChores extends AppCompatActivity {
-    Button myChores, rewards, home,CreateChore;
-    ListView allChoresListView;
-    String[] all_chores;
-    String[] all_chores_scores;
-    String[] all_chores_scores_descriptions;
+
+   DatabaseReference dref;
+   ListView listview;
+   ArrayList<String> list = new ArrayList<>();
+   ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_chores);
 
-        //Creating the listview to hold all the chores
-        Resources res = getResources();
-        allChoresListView = (ListView) findViewById(R.id.allChoresListView);
-        all_chores = res.getStringArray(R.array.all_chores);
-        all_chores_scores = res.getStringArray(R.array.all_chores_scores);
-        all_chores_scores_descriptions = res.getStringArray(R.array.all_chores_scores_desciptions);
-
-        allchoresAdapter all_choresAdapter= new allchoresAdapter(this, all_chores, all_chores_scores, all_chores_scores_descriptions);
-        allChoresListView.setAdapter(all_choresAdapter);
-
-
-
-
-
-        home = findViewById(R.id.house_button);
-        rewards = findViewById(R.id.rewards);
-        myChores = findViewById(R.id.myChores);
-        CreateChore = findViewById(R.id.createChore);
-
-        home.setOnClickListener(new View.OnClickListener()
-        {
+        listview = (ListView)findViewById(R.id.allChoresListView);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,list);
+        listview.setAdapter(adapter);
+        dref = FirebaseDatabase.getInstance().getReference();
+        dref.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onClick(View view)
-            {
-                Intent intent = new Intent(AllChores.this, Home.class);
-                startActivity(intent);
-                finish();
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                String value = dataSnapshot.getValue(String.class);
+                list.add(value);
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
-        rewards.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                Intent intent = new Intent(AllChores.this, Rewards.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-        myChores.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                Intent intent = new Intent(AllChores.this, MyChores.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-        CreateChore.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                Intent intent = new Intent(AllChores.this, CreateChore.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+
+
+
+
+
+
+
+
+
     }
 }
