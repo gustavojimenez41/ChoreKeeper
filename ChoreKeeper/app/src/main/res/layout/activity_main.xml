@@ -10,41 +10,65 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
         android:orientation="vertical"
-        android:paddingTop="40sp">
+        android:padding="@dimen/activity_horizontal_margin">
+
+
+        <ImageView
+            android:layout_width="@dimen/logo_w_h"
+            android:layout_height="@dimen/logo_w_h"
+            android:layout_marginBottom="30dp"
+            android:src="@mipmap/ic_launcher" />
 
         <EditText
-            android:id="@+id/enterEmailMain"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10sp"
-            android:layout_marginRight="10sp"
-            android:ems="10"
-            android:hint="Email"
-            android:inputType="textPersonName" />
+                android:id="@+id/enterEmailMain"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="Email"
+                android:textColorHint="@color/iron"
+                android:textColor="@android:color/white"
+                android:inputType="textEmailAddress" />
 
         <EditText
-            android:id="@+id/enterPasswordMain"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10sp"
-            android:layout_marginRight="10sp"
-            android:ems="10"
-            android:hint="Password"
-            android:inputType="textWebPassword" />
-
+                android:id="@+id/enterPasswordMain"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:textColorHint="@color/iron"
+                android:textColor="@android:color/white"/>
         <Button
             android:id="@+id/loginButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@color/iron"
+            android:text="Login"
+            android:textColor="@android:color/black" />
+
+        <Button
+            android:id="@+id/resetPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Login"
-            />
+            android:layout_marginTop="20dp"
+            android:background="@null"
+            android:text="Forgot Password?"
+            android:textAllCaps="false"
+            android:textColor="@color/iron" />
+
         <Button
             android:id="@+id/registerButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Register" />
-
+            android:background="@null"
+            android:text="Sign up!"
+            android:textAllCaps="false"
+            android:textColor="@color/iron"
+            android:textSize="15dp" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

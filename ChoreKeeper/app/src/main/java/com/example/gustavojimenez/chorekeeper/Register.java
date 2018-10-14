@@ -38,39 +38,40 @@ public class Register extends AppCompatActivity {
     RadioButton joinHouse, createHouse;
     EditText joinHouseID;
     Button registerButton;
+
+    //this spinner will spin once user clicks register to show we are trying to connect with database
     private ProgressBar spinner;
 
-
+    //information needed to use Firebase
     private DatabaseReference dbref;
     private FirebaseAuth auth;
     FirebaseDatabase db = FirebaseDatabase.getInstance();
 
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
-
+        //loads up screen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        //linking items with screen
         registerButton = findViewById(R.id.registerButton);
         joinHouse = findViewById(R.id.joinHouse);
         joinHouseID = findViewById(R.id.enterHouseID);
         createHouse = findViewById(R.id.createHouse);
         spinner = findViewById(R.id.spinner);
-
-
         spinner.setVisibility(View.GONE);
-        auth = FirebaseAuth.getInstance();
 
+        //if someone is currently signed in, we sign them out?
+        //NOT SURE WHAT THIS DOES
+        auth = FirebaseAuth.getInstance();
         if(auth.getCurrentUser()!=null)
         {
             signOut();
         }
 
+        //if selects "join house" radio button, app will ask for house code input
         joinHouse.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -79,7 +80,7 @@ public class Register extends AppCompatActivity {
                 joinHouseID.setHint("house code");
             }
         });
-
+        //if selects "create house" radio button, app will ask for house name input
         createHouse.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -95,16 +96,16 @@ public class Register extends AppCompatActivity {
             public void onClick(View view)
             {
 
-
-
+                //getting information that the user entered
                 String pass = ((EditText)findViewById(R.id.enterPassword)).getText().toString();
                 String mail = ((EditText)findViewById(R.id.enterEmail)).getText().toString();
                 String user = ((EditText)findViewById(R.id.enterUsername)).getText().toString();
                 String houseID = ((EditText)findViewById(R.id.enterHouseID)).getText().toString();
 
-
+                //here we are checking to make sure user entered all information
+                //else we do not create new user
                 Boolean good = true;
-
+                //note: TextUtils.isEmpty(String) returns true if string is null or 0-length
                 if(TextUtils.isEmpty(pass))
                 {
                     ((EditText)findViewById(R.id.enterPassword)).setError("Cannot be empty");
@@ -125,46 +126,43 @@ public class Register extends AppCompatActivity {
                     ((EditText)findViewById(R.id.enterHouseID)).setError("Cannot be empty");
                     good = false;
                 }
-
                 if(good)
                 {
                     createNewUser(pass,mail);
                     spinner.setVisibility(view.VISIBLE);
                 }
 
-
             }
         });
     }
 
-
+    //main objective of createNewUser is to put information into database
     private void createNewUser(String password, String email)
     {
-
-
-        auth.createUserWithEmailAndPassword(email,password)
-
-                .addOnCompleteListener(Register.this, new OnCompleteListener<AuthResult>()
+        //" To handle success and failure in the same listener, attach an OnCompleteListener: "
+        auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener
+                (Register.this, new OnCompleteListener<AuthResult>()
                 {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task)
                     {
+                        //Task completed successfully
                         if (task.isSuccessful())
                         {
-
+                            //not sure what this is
                             Log.d(TAG, "createUserWithEmail:success");
+
+                            //retrieving current user information
                             FirebaseUser user = auth.getCurrentUser();
 
-
-
-
+                            //NOT SURE WHAT THIS DOES
                             //sets the display name to the username given by the user
                             String username = ((EditText)findViewById(R.id.enterUsername)).getText().toString();
 
+                            //NOT SURE WHT THIS DOES
                             UserProfileChangeRequest updates = new UserProfileChangeRequest.Builder()
                                     .setDisplayName(username)
                                     .build();
-
                             user.updateProfile(updates)
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
@@ -193,23 +191,19 @@ public class Register extends AppCompatActivity {
                                     {
                                         //hash the name into a code
                                         hCode = Integer.toString(Math.abs(hName.hashCode()));
-
                                     }
                                     else
                                     {
                                         hCode = hName;
-                                }
-
-
+                                    }
+                                    
                                     //checks if there is a house with the code
                                     boolean exists = false;
-
                                     for(DataSnapshot data: dataSnapshot.getChildren())
                                     {
 
                                         if (data.getKey().equals(hCode))
                                         {
-
                                             exists = true;
                                         }
                                     }
@@ -287,8 +281,8 @@ public class Register extends AppCompatActivity {
                                 @Override
                                 public void onCancelled(DatabaseError Error)
                                 {
-                                    Toast.makeText(Register.this, "Authentication failed." + task.getException().getMessage(),
-                                            Toast.LENGTH_LONG).show();
+//                                    Toast.makeText(Register.this, "Authentication failed." + task.getException().getMessage(),
+//                                            Toast.LENGTH_LONG).show();
 
                                     spinner.setVisibility(View.GONE);
 
@@ -303,6 +297,7 @@ public class Register extends AppCompatActivity {
 
 
                         }
+                        // Task failed with an exception
                         else
                         {
                             // If sign in fails, display a message to the user.
@@ -331,13 +326,13 @@ public class Register extends AppCompatActivity {
         //create new user
         FirebaseUser user = auth.getCurrentUser();
 
-        User newuser = new User(user.getUid(),hCode);
+        User newUser = new User(user.getUid(),hCode);
         dbref = db.getReference("Users");
-        dbref.child(newuser.getID()).setValue(newuser);
+        dbref.child(newUser.getID()).setValue(newUser);
 
         //add the user to the house
         dbref = db.getReference("Houses/" + hCode + "/members");
-        dbref.child(newuser.getID()).setValue(TRUE);
+        dbref.child(newUser.getID()).setValue(TRUE);
 
         //only add the name to the house if creating a new house
         //if hName = hCode, user is joining a house
