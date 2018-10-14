@@ -41,6 +41,10 @@ public class CreateChore extends AppCompatActivity {
             public void onClick(View view)
             {
                 String name = ((EditText)findViewById(R.id.chorename)).getText().toString();
+                int points = ((EditText)findViewById(R.id.points)).getInputType();
+                String comments = ((EditText)findViewById(R.id.description)).getText().toString();
+
+                createChore(name, points, comments);
 
                 Intent intent = new Intent(CreateChore.this, AllChores.class);
                 startActivity(intent);
@@ -52,25 +56,19 @@ public class CreateChore extends AppCompatActivity {
 
 
 
-    public void createChore(String name, int points, String comments)
+    public void createChore(final String name, final int points, final String comments)
     {
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
         String uname = user.getDisplayName();
-
-        String ID = Integer.toString(Math.abs(name.hashCode()));
-        name = ((EditText)findViewById(R.id.chorename)).getText().toString();
-        points = ((EditText)findViewById(R.id.points)).getInputType();
-        comments = ((EditText)findViewById(R.id.description)).getText().toString();
-        final Chore c = new Chore(name, comments, points, ID);
+        final String ID = Integer.toString(Math.abs(name.hashCode()));
 
 
-        //adds the chore to the list of chores
-        dbref = db.getReference("Chores");
-        dbref.child(c.getID()).setValue(c);
 
-        //adds the chore to the house
+
+
+
         //needs to reference the house code which is retrieved through the user
         //so we need to read from the database, hence the listener
         ValueEventListener addToHouse = new ValueEventListener()
@@ -79,9 +77,22 @@ public class CreateChore extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot)
             {
                 //should be the house code
-                String hCode  = (String)dataSnapshot.getValue();
-                dbref = db.getReference("Houses/"+hCode+"Chores");
+                String housecode  = dataSnapshot.getValue(String.class);
+                //create the new chore
+                final Chore c = new Chore(name, comments, points, ID, housecode);
+
+                //adds the chore to the list of chores
+                dbref = db.getReference("Chores");
+                dbref.child(c.getID()).setValue(c);
+
+                //adds the chore to the house
+                dbref = db.getReference("Houses/"+housecode+"/Chores");
                 dbref.child(c.getID()).setValue(TRUE);
+
+
+                Toast.makeText(CreateChore.this, "Chore added",
+                        Toast.LENGTH_LONG).show();
+
             }
 
             @Override
