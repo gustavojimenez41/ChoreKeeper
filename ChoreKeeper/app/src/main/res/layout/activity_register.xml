@@ -1,52 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
+        android:background="@color/colorPrimary">
 
         <TextView
             android:id="@+id/registration_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="15dp"
             android:text="REGISTER"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat"
             android:textSize="24sp" />
-
         <EditText
             android:id="@+id/enterUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="0dp"
-            android:ems="10"
             android:hint="Username"
+            android:textColorHint="@color/iron"
+            android:textColor="@android:color/white"
             android:inputType="textPersonName"
             android:singleLine="false"
             android:textAlignment="viewStart"
-            android:textSize="18sp" />
+            android:textSize="18sp"/>
 
         <EditText
             android:id="@+id/enterPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:ems="10"
             android:hint="Password"
             android:inputType="textPassword"
+            android:textColorHint="@color/iron"
+            android:textColor="@android:color/white"
             android:singleLine="false"
             android:textAlignment="viewStart"
-            android:textSize="18sp" />
+            android:textSize="18sp"/>
 
         <EditText
             android:id="@+id/enterEmail"
@@ -54,15 +57,19 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
             android:ems="10"
             android:hint="Email"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:textColorHint="@color/iron"
+            android:textColor="@android:color/white"/>
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat"
+            android:textColor="@color/iron"
             android:text="Would you like to join a house or create a house?"
             android:textSize="15sp"
             android:layout_gravity="center_horizontal"/>
@@ -74,7 +81,6 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_weight="1"
             android:orientation="horizontal">
 
             <RadioButton
@@ -82,7 +88,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Create House" />
+                android:text="Create House"
+                android:textColor="@color/iron"/>
 
             <RadioButton
                 android:id="@+id/joinHouse"
@@ -90,7 +97,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:checked="true"
-                android:text="Join House" />
+                android:text="Join House"
+                android:textColor="@color/iron"/>
         </RadioGroup>
 
         <EditText
@@ -99,24 +107,28 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
             android:ems="10"
             android:hint="House ID"
             android:inputType="text"
-            android:visibility="visible" />
+            android:visibility="visible"
+            android:textColorHint="@color/iron"
+            android:textColor="@android:color/white"/>
 
         <Button
             android:id="@+id/registerButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:text="REGISTER" />
+            android:text="REGISTER"
+            />
 
         <ProgressBar
             android:id="@+id/spinner"
             style="@android:style/Widget.Holo.ProgressBar.Large"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 
-</ScrollView>
+</android.support.constraint.ConstraintLayout>
