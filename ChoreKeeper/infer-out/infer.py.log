@@ -1,0 +1,24 @@
+[INFO] output of locale.getdefaultlocale(): ('en_US', 'UTF-8')
+[INFO] encoding we chose in the end: UTF-8
+[INFO] Running command /usr/local/Cellar/infer/0.15.0/lib/infer/infer/bin/../lib/python/infer.py -j 4 --project-root /Users/gustavojimenez/AndroidStudioProjects/ChoreKeeper/ChoreKeeper --out /Users/gustavojimenez/AndroidStudioProjects/ChoreKeeper/ChoreKeeper/infer-out -- ./gradlew build
+[INFO] Path to infer script /usr/local/Cellar/infer/0.15.0/lib/infer/infer/bin/../lib/python/infer.py (/usr/local/Cellar/infer/0.15.0/lib/infer/infer/lib/python/infer.py)
+[INFO] Platform: Darwin-17.4.0-x86_64-i386-64bit
+[INFO] PATH=/anaconda3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware Fusion.app/Contents/Public:/usr/local/share/dotnet:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Applications/Xamarin Workbooks.app/Contents/SharedSupport/path-bin
+[INFO] SHELL=/bin/bash
+[INFO] PWD=/Users/gustavojimenez/AndroidStudioProjects/ChoreKeeper/ChoreKeeper
+[INFO] Running with:
+
+------------------------------------------------------------
+Gradle 4.4
+------------------------------------------------------------
+
+Build time:   2017-12-06 09:05:06 UTC
+Revision:     cf7821a6f79f8e2a598df21780e3ff7ce8db2b82
+
+Groovy:       2.4.12
+Ant:          Apache Ant(TM) version 1.9.9 compiled on February 2 2017
+JVM:          1.8.0_131 (Oracle Corporation 25.131-b11)
+OS:           Mac OS X 10.13.3 x86_64
+
+
+[INFO] Capture phase was successful

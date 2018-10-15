@@ -1,0 +1,45 @@
+Found 5 issues
+
+app/src/main/java/com/example/gustavojimenez/chorekeeper/MainActivity.java:99: error: NULL_DEREFERENCE
+  object `user` last assigned on line 98  at line 99.
+  97.                           {
+  98.                               FirebaseUser user = firebaseauth.getCurrentUser();
+  99. >                             Toast.makeText(MainActivity.this, "Hello "+user.getDisplayName(),
+  100.                                       Toast.LENGTH_LONG).show();
+  101.                           }
+
+app/src/main/java/com/example/gustavojimenez/chorekeeper/Register.java:127: error: NULL_DEREFERENCE
+  object `user` last assigned on line 115  at line 127.
+  125.                                       .build();
+  126.   
+  127. >                             user.updateProfile(updates)
+  128.                                       .addOnCompleteListener(new OnCompleteListener<Void>() {
+  129.                                           @Override
+
+app/src/main/java/com/example/gustavojimenez/chorekeeper/Register.java:263: error: NULL_DEREFERENCE
+  object returned by `task.getException()`  at line 263.
+  261.                               // If sign in fails, display a message to the user.
+  262.                               Log.e(TAG, "createUserWithEmail:failure", task.getException());
+  263. >                             Toast.makeText(Register.this, "Authentication failed." + task.getException().getMessage(),
+  264.                                       Toast.LENGTH_LONG).show();
+  265.                            }
+
+app/src/main/java/com/example/gustavojimenez/chorekeeper/Register.java:285: error: NULL_DEREFERENCE
+  object `user` last assigned on line 283  at line 285.
+  283.           FirebaseUser user = mfirebaseauth.getCurrentUser();
+  284.   
+  285. >         User newuser = new User(userCode(user),hCode, user.getUid());
+  286.           dbref = db.getReference("Users");
+  287.           dbref.child(newuser.getID()).setValue(newuser);
+
+app/src/main/java/com/example/gustavojimenez/chorekeeper/Register.java:309: error: NULL_DEREFERENCE
+  object `username` last assigned on line 308  at line 309.
+  307.       {
+  308.           String username = user.getDisplayName();
+  309. >         return Integer.toString(Math.abs(username.hashCode()));
+  310.       }
+  311.   }
+
+Summary of the reports
+
+  NULL_DEREFERENCE: 5
