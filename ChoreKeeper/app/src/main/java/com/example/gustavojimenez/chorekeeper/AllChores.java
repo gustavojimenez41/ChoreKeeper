@@ -1,5 +1,4 @@
-
-        package com.example.gustavojimenez.chorekeeper;
+package com.example.gustavojimenez.chorekeeper;
 
         import android.content.Intent;
         import android.os.Bundle;
@@ -49,7 +48,7 @@ public class AllChores extends AppCompatActivity {
         rewards = findViewById(R.id.rewards2);
         createchore = findViewById(R.id.createChore2);
 
-        listview = (ListView)findViewById(R.id.allChoresListView);
+        listview = findViewById(R.id.allChoresListView);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,list);
         listview.setAdapter(adapter);
 
