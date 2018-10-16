@@ -120,6 +120,7 @@ public class AllChores extends AppCompatActivity {
 
                         String chorehousecode = dataSnapshot.child("housecode").getValue(String.class);
 
+
                         if(chorehousecode.equals(housecode))
                         {
 
