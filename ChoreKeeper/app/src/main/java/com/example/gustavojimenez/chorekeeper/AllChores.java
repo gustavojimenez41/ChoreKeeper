@@ -118,9 +118,9 @@ public class AllChores extends AppCompatActivity {
 
 
                         String chorehousecode = dataSnapshot.child("housecode").getValue(String.class);
+                        Log.e(TAG, "checking housecode: " + chorehousecode);
 
-
-                        if(chorehousecode.equals(housecode))
+                        if(chorehousecode != null && chorehousecode.equals(housecode))
                         {
 
 
@@ -150,6 +150,10 @@ public class AllChores extends AppCompatActivity {
                             adapter.notifyDataSetChanged();
 
                             //this is where you do whatever you need to do with the data
+                        }
+                        else
+                        {
+                            Log.e(TAG, "housecode is null");
                         }
 
                     }
