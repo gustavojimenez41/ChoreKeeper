@@ -3,6 +3,7 @@ package com.example.gustavojimenez.chorekeeper;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,9 +22,6 @@ import static java.lang.Boolean.TRUE;
 public class CreateChore extends AppCompatActivity {
 
     Button createChore;
-   // String chorename = ((EditText)findViewById(R.id.chorename)).getText().toString();
-   // float point_value = ((EditText)findViewById(R.id.points)).getAlpha();
-    //String description = ((EditText)findViewById(R.id.description)).getText().toString();
 
     private DatabaseReference dbref;
     FirebaseDatabase db = FirebaseDatabase.getInstance();
@@ -40,15 +38,44 @@ public class CreateChore extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
+
+                int points;
                 String name = ((EditText)findViewById(R.id.chorename)).getText().toString();
-                int points = ((EditText)findViewById(R.id.points)).getInputType();
+                String pointsTemp = ((EditText)findViewById(R.id.points)).getText().toString();
+                if(pointsTemp.matches(""))
+                {
+                    points = 0;
+                }
+                else
+                {
+                    points = Integer.parseInt(pointsTemp);
+                }
                 String comments = ((EditText)findViewById(R.id.description)).getText().toString();
 
-                createChore(name, points, comments);
 
-                Intent intent = new Intent(CreateChore.this, AllChores.class);
-                startActivity(intent);
-                finish();
+                //here we are checking to make sure user entered all information
+                //else we do not create new user
+                Boolean good = true;
+                //note: TextUtils.isEmpty(String) returns true if string is null or 0-length
+                if(TextUtils.isEmpty(name))
+                {
+                    ((EditText)findViewById(R.id.chorename)).setError("Cannot be empty");
+                    good = false;
+                }
+                if(TextUtils.isEmpty(comments))
+                {
+                    ((EditText)findViewById(R.id.description)).setError("Cannot be empty");
+                    good = false;
+                }
+                if(good)
+                {
+                    createChore(name, points, comments);
+                    Intent intent = new Intent(CreateChore.this, AllChores.class);
+                    startActivity(intent);
+                    finish();
+                }
+
+
             }
         });
     }
