@@ -51,11 +51,13 @@ dependencies {
 
     ext.checkerFrameworkVersion = '2.5.6'
     implementation "org.checkerframework:checker-qual-android:${checkerFrameworkVersion}"
+    implementation 'com.android.support:recyclerview-v7:26.1.0'
     annotationProcessor "org.checkerframework:checker:${checkerFrameworkVersion}"
     checkerFrameworkAnnotatedJDK "org.checkerframework:jdk8:${checkerFrameworkVersion}"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support:design:26.1.0'
     implementation 'com.firebaseui:firebase-ui-auth:4.1.0'
     implementation 'com.google.firebase:firebase-auth:16.0.3'
     implementation 'com.google.firebase:firebase-database:16.0.2'

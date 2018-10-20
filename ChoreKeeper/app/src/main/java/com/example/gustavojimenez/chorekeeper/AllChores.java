@@ -11,6 +11,17 @@ package com.example.gustavojimenez.chorekeeper;
         import android.widget.Button;
         import android.widget.ListView;
         import android.widget.Toast;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Toast;
 
         import com.google.firebase.auth.FirebaseAuth;
         import com.google.firebase.auth.FirebaseUser;
@@ -118,6 +129,7 @@ public class AllChores extends AppCompatActivity {
 
 
                         String chorehousecode = dataSnapshot.child("housecode").getValue(String.class);
+
                         Log.e(TAG, "checking housecode: " + chorehousecode);
 
                         if(chorehousecode != null && chorehousecode.equals(housecode))
