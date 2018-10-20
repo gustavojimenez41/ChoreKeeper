@@ -165,7 +165,7 @@ public class AllChores extends AppCompatActivity {
                         }
                         else
                         {
-                            Log.e(TAG, "housecode is null");
+                            //Log.e(TAG, "housecode is null");
                         }
 
                     }

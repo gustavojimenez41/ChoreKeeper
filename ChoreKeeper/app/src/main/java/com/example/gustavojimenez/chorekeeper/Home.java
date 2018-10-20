@@ -3,13 +3,30 @@ package com.example.gustavojimenez.chorekeeper;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 public class Home extends AppCompatActivity {
+
+    DatabaseReference dref;
+    String housecode = null;
+
+    private static final String TAG = "Home:";
 
     ListView userListView;
     String[] users;
@@ -70,6 +87,96 @@ public class Home extends AppCompatActivity {
                 finish();
             }
         });
+
+
+
+        //getting information of the users to display
+        //get the current housecode
+        ValueEventListener sethousecode = new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                housecode  = dataSnapshot.getValue(String.class);
+                Log.e(TAG, "current house code is: "+housecode);
+
+
+
+
+                //once added, is triggered for every child, then once every time a new child is added
+                //then again every time a new child is added.
+                dref = FirebaseDatabase.getInstance().getReference("Users");
+                dref.addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s)
+                    {
+
+
+                        String userhousecode = dataSnapshot.child("houseCode").getValue(String.class);
+                        Log.e(TAG, "checking  user houseCode: " + userhousecode);
+
+                        if(userhousecode != null && userhousecode.equals(housecode))
+                        {
+
+                            FirebaseAuth auth = FirebaseAuth.getInstance();
+                            FirebaseUser user = auth.getCurrentUser();
+
+                            //retrieve all the attributes
+
+                            String userid = dataSnapshot.getKey();
+                            long points = (long)dataSnapshot.child("points").getValue();
+                            String username = user.getDisplayName();
+
+
+                            //this is where you display the data
+                        }
+                        else
+                        {
+                            Log.e(TAG, "Not the current house");
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError Error)
+            {
+
+            }
+        };
+
+
+
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
+        Log.e(TAG, "uesrid is :"+ user.getUid());
+        dref = FirebaseDatabase.getInstance().getReference("Users/"+user.getUid()+"/houseCode");
+        dref.addListenerForSingleValueEvent(sethousecode);
+
 
 
     }

@@ -39,9 +39,12 @@ public class MainActivity extends AppCompatActivity {
         firebaseauth.getInstance();
         user = firebaseauth.getInstance().getCurrentUser();
 
+
+
         //go straight to the home page if the user is already signed in
         if(user!=null)//this is sometimes working
         {
+            Log.e(TAG,"user id: " + user.getUid());
             Intent intent = new Intent(MainActivity.this,Home.class);
             startActivity(intent);
             finish();
