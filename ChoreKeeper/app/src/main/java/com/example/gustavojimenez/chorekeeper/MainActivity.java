@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         if(user!=null)//this is sometimes working
         {
             Log.e(TAG,"user id: " + user.getUid());
-
+            globalVariables.setUserid(user.getUid());
 
             Intent intent = new Intent(MainActivity.this,Home.class);
             startActivity(intent);
@@ -96,6 +96,8 @@ public class MainActivity extends AppCompatActivity {
                     //if the sign in works, go to home page
                     if(user!=null)
                     {
+                        globalVariables.setUserid(user.getUid());
+
                         Intent intent = new Intent(MainActivity.this, Home.class);
                         startActivity(intent);
                         finish();
