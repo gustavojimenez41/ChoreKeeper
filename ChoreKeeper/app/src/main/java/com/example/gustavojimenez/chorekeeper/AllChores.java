@@ -40,7 +40,7 @@ import android.widget.Toast;
 public class AllChores extends AppCompatActivity {
 
     String housecode = null;
-    Button allChores, myChores, rewards,createchore;
+    Button allChores, myChores, rewards,createchore,house;
 
     private static final String TAG = "AllChores:";
 
@@ -58,10 +58,13 @@ public class AllChores extends AppCompatActivity {
         myChores = findViewById(R.id.my_chores2);
         rewards = findViewById(R.id.rewards2);
         createchore = findViewById(R.id.createChore2);
+        house = findViewById(R.id.house_button2);
 
         listview = findViewById(R.id.allChoresListView);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,list);
         listview.setAdapter(adapter);
+
+
 
         rewards.setOnClickListener(new View.OnClickListener()
         {
@@ -99,6 +102,17 @@ public class AllChores extends AppCompatActivity {
             public void onClick(View view)
             {
                 Intent intent = new Intent(AllChores.this, CreateChore.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        house.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(AllChores.this, Home.class);
                 startActivity(intent);
                 finish();
             }

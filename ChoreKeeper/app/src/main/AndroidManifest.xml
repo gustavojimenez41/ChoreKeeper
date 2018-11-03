@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <!--tools:replace="supportsRtl">-->
+
+        <!-- tools:replace="supportsRtl"> -->
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,9 +38,9 @@
         <activity android:name=".MyChores" />
         <activity android:name=".CreateChore" />
         <activity android:name=".CreateReward" />
-        <activity android:name=".MainActivityFragment">
-
-        </activity>
+        <activity android:name=".MainActivityFragment"></activity>
+        <activity android:name=".AssignChore"
+            android:exported="true"/>
     </application>
 
 </manifest>

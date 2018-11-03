@@ -25,7 +25,7 @@ public class Home extends AppCompatActivity {
 
     DatabaseReference dref;
     String housecode = null;
-
+    int i = 0;
     private static final String TAG = "Home:";
 
     ListView userListView;
@@ -40,6 +40,7 @@ public class Home extends AppCompatActivity {
         Resources res = getResources();
         userListView = (ListView) findViewById(R.id.userListView);
         users = res.getStringArray(R.array.users);
+
         scores = res.getStringArray(R.array.scores);
         allChores = findViewById(R.id.all_chores);
         myChores = findViewById(R.id.my_chores);
@@ -126,6 +127,7 @@ public class Home extends AppCompatActivity {
                             String userid = dataSnapshot.getKey();
                             long points = (long)dataSnapshot.child("points").getValue();
                             String username = user.getDisplayName();
+
 
 
                             //this is where you display the data
