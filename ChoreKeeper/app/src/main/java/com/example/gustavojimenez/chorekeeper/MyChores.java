@@ -21,8 +21,7 @@ public class MyChores extends AppCompatActivity {
         CreateChore = findViewById(R.id.createChore);
 
         final GlobalVar globalVariables = (GlobalVar) getApplicationContext();
-        String housecode = globalVariables.gethousecode();
-        //Log.e(TAG,"housecode global variable testing: "+housecode);
+
 
         home.setOnClickListener(new View.OnClickListener()
         {

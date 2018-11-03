@@ -127,9 +127,11 @@ public class AllChores extends AppCompatActivity {
                 //once added, is triggered for every child
                 //then again every time a new child is added.
                 dref = FirebaseDatabase.getInstance().getReference("Chores");
-                dref.addChildEventListener(new ChildEventListener() {
+                dref.addChildEventListener(new ChildEventListener()
+                {
                     @Override
-                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s)
+                    {
                         //the snapshot is the chore object
                         //if the chore belongs to the current house, then we want the data
                         //if not, ignore it
@@ -142,12 +144,15 @@ public class AllChores extends AppCompatActivity {
 
 
                             //the datasnapshot is the child that was added, a chore object, the key of which is the chore Id
-
                             Chore newchore = dataSnapshot.getValue(Chore.class);
-                            Log.e(TAG,"testing the thing: "+newchore.getHousecode()+newchore.getName());
-                            //if this works
-                            //final GlobalVar globalVariables = (GlobalVar) getApplicationContext();
-                            //globalVariables.addHouseChore(newchore);
+
+                            //adds the chores belonging to the house to the global variable
+                            final GlobalVar globalVariables = (GlobalVar) getApplicationContext();
+                            if(!globalVariables.getChores().contains(newchore))
+                            {
+                                globalVariables.addHouseChore(newchore);
+                            }
+
 
                             String value = dataSnapshot.getKey();
 
@@ -213,7 +218,6 @@ public class AllChores extends AppCompatActivity {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
         dref = FirebaseDatabase.getInstance().getReference("Users/"+user.getUid()+"/houseCode");
-        Log.e(TAG,"adding the listener");
         dref.addListenerForSingleValueEvent(sethousecode);
 
 

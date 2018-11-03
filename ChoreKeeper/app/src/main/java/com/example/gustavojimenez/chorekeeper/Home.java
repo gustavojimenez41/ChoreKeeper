@@ -52,8 +52,6 @@ public class Home extends AppCompatActivity {
         //instance of the global variables
         final GlobalVar globalVariables = (GlobalVar) getApplicationContext();
 
-        Log.e(TAG,globalVariables.gethousecode());
-
 
         userListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -184,7 +182,7 @@ public class Home extends AppCompatActivity {
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
-        Log.e(TAG, "uesrid is :"+ user.getUid());
+        //Log.e(TAG, "uesrid is :"+ user.getUid());
         dref = FirebaseDatabase.getInstance().getReference("Users/"+user.getUid()+"/houseCode");
         dref.addListenerForSingleValueEvent(sethousecode);
 
