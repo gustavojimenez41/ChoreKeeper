@@ -22,7 +22,7 @@ public class MyChores extends AppCompatActivity {
 
         final GlobalVar globalVariables = (GlobalVar) getApplicationContext();
         String housecode = globalVariables.gethousecode();
-        Log.e(TAG,"housecode global variable testing: "+housecode);
+        //Log.e(TAG,"housecode global variable testing: "+housecode);
 
         home.setOnClickListener(new View.OnClickListener()
         {

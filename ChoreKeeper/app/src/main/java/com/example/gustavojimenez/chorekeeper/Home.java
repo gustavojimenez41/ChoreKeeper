@@ -50,9 +50,9 @@ public class Home extends AppCompatActivity {
         userListView.setAdapter(userAdapter);
 
         //instance of the global variables
-        final GlobalVar globalVariables = (GlobalVar) getApplicationContext();
+        //final GlobalVar globalVariables = (GlobalVar) getApplicationContext();
 
-        Log.e(TAG,globalVariables.gethousecode());
+        //Log.e(TAG,globalVariables.gethousecode());
 
 
         userListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -106,6 +106,7 @@ public class Home extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot)
             {
                 housecode  = dataSnapshot.getValue(String.class);
+                final GlobalVar globalVariables = (GlobalVar) getApplicationContext();
                 globalVariables.setHousecode(housecode);
                 Log.e(TAG, "current house code is: "+housecode);
                 Log.e(TAG, "setting global varibale");
@@ -184,7 +185,7 @@ public class Home extends AppCompatActivity {
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
-        Log.e(TAG, "uesrid is :"+ user.getUid());
+        //Log.e(TAG, "uesrid is :"+ user.getUid());
         dref = FirebaseDatabase.getInstance().getReference("Users/"+user.getUid()+"/houseCode");
         dref.addListenerForSingleValueEvent(sethousecode);
 

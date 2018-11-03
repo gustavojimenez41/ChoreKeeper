@@ -40,7 +40,7 @@ import android.widget.Toast;
 public class AllChores extends AppCompatActivity {
 
     String housecode = null;
-    Button allChores, myChores, rewards,createchore,house;
+    Button allChores, myChores, rewards,createchore, house;
 
     private static final String TAG = "AllChores:";
 
@@ -66,9 +66,7 @@ public class AllChores extends AppCompatActivity {
 
         final GlobalVar globalVariables = (GlobalVar) getApplicationContext();
         housecode = globalVariables.gethousecode();
-        Log.e(TAG,"housecode global variable testing: "+housecode);
-
-
+        //Log.e(TAG,"housecode global variable testing: "+housecode);
 
         rewards.setOnClickListener(new View.OnClickListener()
         {
@@ -111,17 +109,6 @@ public class AllChores extends AppCompatActivity {
             }
         });
 
-        house.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                Intent intent = new Intent(AllChores.this, Home.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-
 
 
 
@@ -132,12 +119,12 @@ public class AllChores extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot)
             {
                 housecode  = dataSnapshot.getValue(String.class);
-                globalVariables.setHousecode(housecode);
-                Log.e(TAG, "setting global variable");
+
+                Log.e(TAG, housecode);
 
 
 
-                //once added, is triggered for every child, then once every time a new child is added
+                //once added, is triggered for every child
                 //then again every time a new child is added.
                 dref = FirebaseDatabase.getInstance().getReference("Chores");
                 dref.addChildEventListener(new ChildEventListener() {
@@ -146,8 +133,6 @@ public class AllChores extends AppCompatActivity {
                         //the snapshot is the chore object
                         //if the chore belongs to the current house, then we want the data
                         //if not, ignore it
-
-
                         String chorehousecode = dataSnapshot.child("housecode").getValue(String.class);
 
                         Log.e(TAG, "checking housecode: " + chorehousecode);
@@ -158,9 +143,11 @@ public class AllChores extends AppCompatActivity {
 
                             //the datasnapshot is the child that was added, a chore object, the key of which is the chore Id
 
-                            //alternate way to do it
-                            //didnt test this
-                            //Chore newchore = dataSnapshot.getValue(Chore.class);
+                            Chore newchore = dataSnapshot.getValue(Chore.class);
+                            Log.e(TAG,"testing the thing: "+newchore.getHousecode()+newchore.getName());
+                            //if this works
+                            //final GlobalVar globalVariables = (GlobalVar) getApplicationContext();
+                            //globalVariables.addHouseChore(newchore);
 
                             String value = dataSnapshot.getKey();
 
@@ -226,6 +213,7 @@ public class AllChores extends AppCompatActivity {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
         dref = FirebaseDatabase.getInstance().getReference("Users/"+user.getUid()+"/houseCode");
+        Log.e(TAG,"adding the listener");
         dref.addListenerForSingleValueEvent(sethousecode);
 
 

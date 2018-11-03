@@ -10,7 +10,7 @@ public class User {
     private String houseCode;
 
     //array of chores assigned to the user identified by an ID
-    //private int[] chores; pretty sure this isnt necessary, Ill know when I implement addChore
+    //private int[] chores; pretty sure this isn't necessary, Ill know when I implement addChore
     private int points = 0;
     //private String authID;
 

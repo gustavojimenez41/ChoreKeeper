@@ -158,6 +158,8 @@ public class Register extends AppCompatActivity {
                             //NOT SURE WHAT THIS DOES
                             //sets the display name to the username given by the user
                             String username = ((EditText)findViewById(R.id.enterUsername)).getText().toString();
+                            final GlobalVar globalVariables = (GlobalVar) getApplicationContext();
+                            globalVariables.setUserid(user.getUid());
 
                             //NOT SURE WHT THIS DOES
                             UserProfileChangeRequest updates = new UserProfileChangeRequest.Builder()
