@@ -52,7 +52,7 @@ public class Home extends AppCompatActivity {
         //instance of the global variables
         final GlobalVar globalVariables = (GlobalVar) getApplicationContext();
 
-        Log.e(TAG,globalVariables.gethousecode());
+       // Log.e(TAG,globalVariables.gethousecode());
 
 
         userListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
