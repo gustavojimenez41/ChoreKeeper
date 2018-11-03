@@ -64,6 +64,10 @@ public class AllChores extends AppCompatActivity {
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,list);
         listview.setAdapter(adapter);
 
+        final GlobalVar globalVariables = (GlobalVar) getApplicationContext();
+        housecode = globalVariables.gethousecode();
+        Log.e(TAG,"housecode global variable testing: "+housecode);
+
 
 
         rewards.setOnClickListener(new View.OnClickListener()
@@ -128,6 +132,8 @@ public class AllChores extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot)
             {
                 housecode  = dataSnapshot.getValue(String.class);
+                globalVariables.setHousecode(housecode);
+                Log.e(TAG, "setting global variable");
 
 
 
@@ -224,5 +230,19 @@ public class AllChores extends AppCompatActivity {
 
 
 
+    }
+
+
+    public void updateChoreOwner(String choreid, String ownerid) {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
+        dref = FirebaseDatabase.getInstance().getReference("Users/"+ownerid+"/Chores");
+
+        //adds the chore to the user list
+        dref.child(choreid).setValue(true);
+
+        //add the owner to the chore
+        dref = FirebaseDatabase.getInstance().getReference("Chores/"+choreid);
+        dref.child(ownerid).setValue(ownerid);
     }
 }

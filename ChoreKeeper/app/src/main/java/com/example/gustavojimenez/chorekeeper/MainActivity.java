@@ -30,8 +30,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
-
+        final GlobalVar globalVariables = (GlobalVar) getApplicationContext();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -45,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
         if(user!=null)//this is sometimes working
         {
             Log.e(TAG,"user id: " + user.getUid());
+
+
             Intent intent = new Intent(MainActivity.this,Home.class);
             startActivity(intent);
             finish();

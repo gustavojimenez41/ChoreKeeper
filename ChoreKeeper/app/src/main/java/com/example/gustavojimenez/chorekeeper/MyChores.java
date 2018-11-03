@@ -3,11 +3,14 @@ package com.example.gustavojimenez.chorekeeper;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 public class MyChores extends AppCompatActivity {
     Button allChores, rewards, home,CreateChore;
+    private static final String TAG = "MyChores:";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -16,6 +19,10 @@ public class MyChores extends AppCompatActivity {
         allChores = findViewById(R.id.allChores);
         rewards = findViewById(R.id.rewards);
         CreateChore = findViewById(R.id.createChore);
+
+        final GlobalVar globalVariables = (GlobalVar) getApplicationContext();
+        String housecode = globalVariables.gethousecode();
+        Log.e(TAG,"housecode global variable testing: "+housecode);
 
         home.setOnClickListener(new View.OnClickListener()
         {

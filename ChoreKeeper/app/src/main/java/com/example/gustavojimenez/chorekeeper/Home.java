@@ -3,6 +3,7 @@ package com.example.gustavojimenez.chorekeeper;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -47,6 +48,12 @@ public class Home extends AppCompatActivity {
         rewards = findViewById(R.id.Rewards);
         userAdapter userAdapter = new userAdapter(this, users, scores);
         userListView.setAdapter(userAdapter);
+
+        //instance of the global variables
+        final GlobalVar globalVariables = (GlobalVar) getApplicationContext();
+
+        Log.e(TAG,globalVariables.gethousecode());
+
 
         userListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -99,7 +106,9 @@ public class Home extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot)
             {
                 housecode  = dataSnapshot.getValue(String.class);
+                globalVariables.setHousecode(housecode);
                 Log.e(TAG, "current house code is: "+housecode);
+                Log.e(TAG, "setting global varibale");
 
 
 
