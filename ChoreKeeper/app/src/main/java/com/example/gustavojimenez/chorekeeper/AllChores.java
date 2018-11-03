@@ -240,7 +240,7 @@ public class AllChores extends AppCompatActivity {
 
         //adds the chore to the user list
         dref.child(choreid).setValue(true);
-
+        //comment
         //add the owner to the chore
         dref = FirebaseDatabase.getInstance().getReference("Chores/"+choreid);
         dref.child(ownerid).setValue(ownerid);
