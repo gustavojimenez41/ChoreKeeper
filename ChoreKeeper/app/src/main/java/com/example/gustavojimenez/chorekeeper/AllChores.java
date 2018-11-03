@@ -148,10 +148,12 @@ public class AllChores extends AppCompatActivity {
 
                             //adds the chores belonging to the house to the global variable
                             final GlobalVar globalVariables = (GlobalVar) getApplicationContext();
-                            if(!globalVariables.getChores().contains(newchore))
+                            if(globalVariables.getChores()!= null && !globalVariables.getChores().contains(newchore))
                             {
                                 globalVariables.addHouseChore(newchore);
                             }
+
+
 
 
                             String value = dataSnapshot.getKey();
