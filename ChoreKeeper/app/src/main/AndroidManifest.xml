@@ -4,8 +4,7 @@
     package="com.example.gustavojimenez.chorekeeper">
 
     <application
-
-        android:name="com.example.gustavojimenez.chorekeeper.GlobalVar"
+        android:name=".GlobalVar"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -40,9 +39,11 @@
         <activity android:name=".MyChores" />
         <activity android:name=".CreateChore" />
         <activity android:name=".CreateReward" />
-        <activity android:name=".MainActivityFragment"></activity>
-        <activity android:name=".AssignChore"
-            android:exported="true"/>
+        <activity android:name=".MainActivityFragment" />
+        <activity
+            android:name=".AssignChore"
+            android:exported="true" />
+        <activity android:name=".ChoreAdapter"></activity>
     </application>
 
 </manifest>

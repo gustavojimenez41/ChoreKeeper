@@ -7,6 +7,7 @@ package com.example.gustavojimenez.chorekeeper;
         import android.support.v7.app.AppCompatActivity;
         import android.util.Log;
         import android.view.View;
+        import android.widget.AdapterView;
         import android.widget.ArrayAdapter;
         import android.widget.Button;
         import android.widget.ListView;
@@ -42,12 +43,14 @@ public class AllChores extends AppCompatActivity {
     String housecode = null;
     Button allChores, myChores, rewards,createchore, house;
 
+
     private static final String TAG = "AllChores:";
 
     DatabaseReference dref;
     ListView listview;
-    ArrayList<String> list = new ArrayList<>();
+    ArrayList<String> list = new ArrayList<String>();
     ArrayAdapter<String> adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +63,12 @@ public class AllChores extends AppCompatActivity {
         createchore = findViewById(R.id.createChore2);
         house = findViewById(R.id.house_button2);
 
+        //Added on sunday to help listview
+        Intent editIntent = new Intent(AllChores.this, AssignChore.class);
+        //..................
+
         listview = findViewById(R.id.allChoresListView);
+
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,list);
         listview.setAdapter(adapter);
 
@@ -172,10 +180,25 @@ public class AllChores extends AppCompatActivity {
                             list.add("\n"+name + "\n"+ stringPoints +"pts"+"\n"+comments+"\n");
 
 
-
+                            //Added Code on Sunday to add intent to listview
+                            //editIntent.putExtra("name",name);
+                            //editIntent.putExtra("points", stringPoints);
+                            //editIntent.putExtra("comment",comments);
+                            //startActivity(editIntent);
+                            //....................................................
                             adapter.notifyDataSetChanged();
 
-                            //this is where you do whatever you need to do with the data
+                            listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                                    String name = list.get(i);
+                                    editIntent.putExtra("name",name);
+                                    //editIntent.putExtra("points", stringPoints);
+                                    //editIntent.putExtra("comment",comments);
+                                    startActivity(editIntent);
+                                }
+                            });
                         }
                         else
                         {
@@ -221,6 +244,7 @@ public class AllChores extends AppCompatActivity {
         FirebaseUser user = auth.getCurrentUser();
         dref = FirebaseDatabase.getInstance().getReference("Users/"+user.getUid()+"/houseCode");
         dref.addListenerForSingleValueEvent(sethousecode);
+
 
 
 
