@@ -12,6 +12,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class AssignChore extends AppCompatActivity{
 
     TextView textElement,pointelement,commentelement;
@@ -45,6 +50,23 @@ public class AssignChore extends AppCompatActivity{
         spinner.setAdapter(adapter);
 
 
+    }
+
+    //assigns the chore to a user
+    public void updateChoreOwner(String choreid, String ownerid) {
+
+        DatabaseReference dref;
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
+        dref = FirebaseDatabase.getInstance().getReference("Users/"+ownerid+"/Chores");
+
+        //adds the chore to the user list
+        dref.child(choreid).setValue(true);
+        //comment
+        //add the owner to the chore
+        dref = FirebaseDatabase.getInstance().getReference("Chores/"+choreid);
+        dref.child(ownerid).setValue(ownerid);
     }
 
 

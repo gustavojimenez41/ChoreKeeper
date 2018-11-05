@@ -34,6 +34,7 @@ import android.widget.Toast;
         import com.google.firebase.database.ValueEventListener;
 
         import java.util.ArrayList;
+        import java.util.List;
 
         import static java.lang.Boolean.TRUE;
 
@@ -149,34 +150,28 @@ public class AllChores extends AppCompatActivity {
                         //if not, ignore it
                         String chorehousecode = dataSnapshot.child("housecode").getValue(String.class);
 
-                        Log.e(TAG, "checking housecode: " + chorehousecode);
 
                         if(chorehousecode != null && chorehousecode.equals(housecode))
                         {
 
 
-                            //the datasnapshot is the child that was added, a chore object, the key of which is the chore Id
-                            Chore newchore = dataSnapshot.getValue(Chore.class);
-
-                            //adds the chores belonging to the house to the global variable
-                            final GlobalVar globalVariables = (GlobalVar) getApplicationContext();
-                            if(globalVariables.getChores()!= null && !globalVariables.getChores().contains(newchore))
-                            {
-                                globalVariables.addHouseChore(newchore);
-                            }
-
-
-
-
-                            String value = dataSnapshot.getKey();
-
                             //retrieve all the attributes
+                            String id = dataSnapshot.getKey();
                             String name = (String) dataSnapshot.child("name").getValue();
                             String comments = (String) dataSnapshot.child("comments").getValue();
                             long points = (long)dataSnapshot.child("points").getValue();
                             String owner = (String) dataSnapshot.child("owner").getValue();
                             String stringPoints = Long.toString(points);
 
+                            Chore newchore = new Chore(name,comments,(int)points,id,housecode);
+
+
+                            //adds the chores belonging to the house to the global variable
+                            final GlobalVar globalVariables = (GlobalVar) getApplicationContext();
+                            if(globalVariables.getChores()== null || !containsChore(globalVariables.getChores(),newchore))
+                            {
+                                globalVariables.addHouseChore(newchore);
+                            }
 
 
                             //add the Id to the list
@@ -261,17 +256,25 @@ public class AllChores extends AppCompatActivity {
 
     }
 
+    //returns true if the user list contains that user
+    //returns false if it does not
+    public boolean containsChore(List<Chore> list, Chore c)
+    {
+        int i = 0;
+        while(i<list.size())
+        {
+            if(list.get(i).getID().equals(c.getID()))
+            {
+                return true;
+            }
+            i++;
+        }
 
-    public void updateChoreOwner(String choreid, String ownerid) {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser user = auth.getCurrentUser();
-        dref = FirebaseDatabase.getInstance().getReference("Users/"+ownerid+"/Chores");
+        return false;
 
-        //adds the chore to the user list
-        dref.child(choreid).setValue(true);
-        //comment
-        //add the owner to the chore
-        dref = FirebaseDatabase.getInstance().getReference("Chores/"+choreid);
-        dref.child(ownerid).setValue(ownerid);
+
     }
+
+
+
 }

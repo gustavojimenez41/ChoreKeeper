@@ -22,6 +22,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.List;
+
 public class Home extends AppCompatActivity {
 
     DatabaseReference dref;
@@ -121,10 +123,13 @@ public class Home extends AppCompatActivity {
 
 
                         String userhousecode = dataSnapshot.child("houseCode").getValue(String.class);
-                        Log.e(TAG, "checking  user houseCode: " + userhousecode);
+
 
                         if(userhousecode != null && userhousecode.equals(housecode))
                         {
+
+
+
 
                             FirebaseAuth auth = FirebaseAuth.getInstance();
                             FirebaseUser user = auth.getCurrentUser();
@@ -135,13 +140,23 @@ public class Home extends AppCompatActivity {
                             long points = (long)dataSnapshot.child("points").getValue();
                             String username = user.getDisplayName();
 
+                            User newuser = new User(userid,housecode,(int)points);
+
+
+                            //adds the list of users to the global variable so that the list can be used
+                            //elsewhere
+
+                            final GlobalVar globalVariables = (GlobalVar) getApplicationContext();
+                            List<User> users = globalVariables.getUsers();
+
+                            //tests if the list already containts that user
+                            if(globalVariables.getUsers()== null || !containsUser(users,newuser))
+                            {
+                                globalVariables.addHouseUser(newuser);
+                            }
 
 
                             //this is where you display the data
-                        }
-                        else
-                        {
-                            Log.e(TAG, "Not the current house");
                         }
 
 
@@ -200,5 +215,25 @@ public class Home extends AppCompatActivity {
     public void goToSettings(View view) {
         Intent intent = new Intent(Home.this, SettingsActivity.class);
         startActivity(intent);
+    }
+
+
+    //returns true if the user list contains that user
+    //returns false if it does not
+    public boolean containsUser(List<User> list, User u)
+    {
+        int i = 0;
+        while(i<list.size())
+        {
+            if(list.get(i).getID().equals(u.getID()))
+            {
+                return true;
+            }
+            i++;
+        }
+
+        return false;
+
+
     }
 }

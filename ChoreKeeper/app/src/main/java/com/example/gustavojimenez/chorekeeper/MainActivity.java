@@ -3,6 +3,7 @@ package com.example.gustavojimenez.chorekeeper;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,14 +17,22 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
     Button registerButton;
     Button login;
+    DatabaseReference dref;
 
     //these two are for authentication system
     FirebaseAuth firebaseauth;
     FirebaseUser user;
+    String housecode = null;
 
     private static final String TAG = "Main Activity: ";
 
@@ -35,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        firebaseauth.getInstance();
+        //firebaseauth.getInstance();
         user = firebaseauth.getInstance().getCurrentUser();
 
 
@@ -45,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         {
             Log.e(TAG,"user id: " + user.getUid());
             globalVariables.setUserid(user.getUid());
+
 
             Intent intent = new Intent(MainActivity.this,Home.class);
             startActivity(intent);
@@ -140,6 +150,8 @@ public class MainActivity extends AppCompatActivity {
                 });
 
     }
+
+
 
 }
 
