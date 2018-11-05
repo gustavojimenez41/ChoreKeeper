@@ -186,7 +186,14 @@ public class Home extends AppCompatActivity {
         dref = FirebaseDatabase.getInstance().getReference("Users/"+user.getUid()+"/houseCode");
         dref.addListenerForSingleValueEvent(sethousecode);
 
-
+        userListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent showDetailActivity = new Intent(getApplicationContext(), UserDetails.class);
+                showDetailActivity.putExtra("com.example.gustavojimenez.USER_INDEX",i);
+                startActivity(showDetailActivity);
+            }
+        });
 
     }
 

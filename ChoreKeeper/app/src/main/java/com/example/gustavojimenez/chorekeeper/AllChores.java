@@ -42,6 +42,10 @@ public class AllChores extends AppCompatActivity {
 
     String housecode = null;
     Button allChores, myChores, rewards,createchore, house;
+    ArrayList<String> chore_arr = new ArrayList<String>();
+    ArrayList<String> points_arr = new ArrayList<String>();
+    ArrayList<String> descript_arr = new ArrayList<String>();
+
 
 
     private static final String TAG = "AllChores:";
@@ -178,6 +182,11 @@ public class AllChores extends AppCompatActivity {
                             //add the Id to the list
 
                             list.add("\n"+name + "\n"+ stringPoints +"pts"+"\n"+comments+"\n");
+                            chore_arr.add(name);
+                            points_arr.add(stringPoints);
+                            descript_arr.add(comments);
+
+
 
 
                             //Added Code on Sunday to add intent to listview
@@ -192,10 +201,12 @@ public class AllChores extends AppCompatActivity {
                                 @Override
                                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                                    String name = list.get(i);
+                                    String name = chore_arr.get(i);
+                                    String points2 = points_arr.get(i);
+                                    String comment = descript_arr.get(i);
                                     editIntent.putExtra("name",name);
-                                    //editIntent.putExtra("points", stringPoints);
-                                    //editIntent.putExtra("comment",comments);
+                                    editIntent.putExtra("points", points2);
+                                    editIntent.putExtra("comment",comment);
                                     startActivity(editIntent);
                                 }
                             });

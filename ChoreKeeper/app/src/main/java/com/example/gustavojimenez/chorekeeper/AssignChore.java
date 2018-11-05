@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 public class AssignChore extends AppCompatActivity{
 
-    TextView textElement;
+    TextView textElement,pointelement,commentelement;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,14 +23,20 @@ public class AssignChore extends AppCompatActivity{
 
         Intent receivedTent = getIntent();
         textElement = (TextView) findViewById(R.id.chore_name);
+        pointelement = (TextView) findViewById(R.id.points);
+        commentelement = (TextView)findViewById(R.id.comment);
+
 
 
         //NewText is where we need to pass in the name of the chore.
         String newText;
         String point, comment;
         newText = receivedTent.getStringExtra("name");
-
+        point = receivedTent.getStringExtra("points");
+        comment = receivedTent.getStringExtra("comment");
         textElement.setText(newText);
+        pointelement.setText(point);
+        commentelement.setText(comment);
 
 
         Spinner spinner = findViewById(R.id.spinner1);
