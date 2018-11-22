@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.example.gustavojimenez.chorekeeper.database;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GlobalVar extends Application
@@ -11,6 +12,7 @@ public class GlobalVar extends Application
     private String housecode = null;
     private String userid = null;
     private List<Chore> chores;
+    private List<User> users;
 
     public String gethousecode()
     {
@@ -28,7 +30,10 @@ public class GlobalVar extends Application
     {
         return chores;
     }
-
+    public List<User> getUsers()
+    {
+        return users;
+    }
 
 
 
@@ -43,8 +48,25 @@ public class GlobalVar extends Application
     }
     public void addHouseChore(Chore c)
     {
+        if(chores==null)
+        {
+            chores = new ArrayList<Chore>();
+        }
         chores.add(c);
     }
+    public void addHouseUser(User u)
+    {
+        if(users==null)
+        {
+            users = new ArrayList<User>();
+        }
+        if(!users.contains(u))
+        {
+            users.add(u);
+        }
+
+    }
+
 
 
 

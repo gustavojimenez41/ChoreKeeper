@@ -155,13 +155,14 @@ public class Register extends AppCompatActivity {
                             //retrieving current user information
                             FirebaseUser user = auth.getCurrentUser();
 
-                            //NOT SURE WHAT THIS DOES
-                            //sets the display name to the username given by the user
-                            String username = ((EditText)findViewById(R.id.enterUsername)).getText().toString();
+
+                            //sets the global
                             final GlobalVar globalVariables = (GlobalVar) getApplicationContext();
                             globalVariables.setUserid(user.getUid());
 
-                            //NOT SURE WHT THIS DOES
+                            //sets the display name to the username given by the user
+                            //username not set with createUserWithEmailAndPassword
+                            String username = ((EditText)findViewById(R.id.enterUsername)).getText().toString();
                             UserProfileChangeRequest updates = new UserProfileChangeRequest.Builder()
                                     .setDisplayName(username)
                                     .build();
