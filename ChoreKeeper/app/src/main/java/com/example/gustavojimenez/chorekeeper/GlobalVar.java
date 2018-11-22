@@ -1,5 +1,4 @@
 package com.example.gustavojimenez.chorekeeper;
-
 import android.app.Application;
 import android.content.Context;
 

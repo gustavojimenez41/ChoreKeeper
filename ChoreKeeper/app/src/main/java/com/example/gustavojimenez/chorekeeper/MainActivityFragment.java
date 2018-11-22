@@ -2,7 +2,6 @@ package com.example.gustavojimenez.chorekeeper;
 
 
 import android.support.v4.app.Fragment;
-import android.app.FragmentTransaction;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +10,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+
+import com.example.gustavojimenez.chorekeeper.R;
+import com.example.gustavojimenez.fragments.AllChoresFragment;
+import com.example.gustavojimenez.fragments.HomeFragment;
+import com.example.gustavojimenez.fragments.MyChoresFragment;
+import com.example.gustavojimenez.fragments.RewardsFragment;
 
 public class MainActivityFragment extends AppCompatActivity {
 

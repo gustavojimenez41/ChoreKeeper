@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.gustavojimenez.fragments.MyChoresFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -70,7 +71,7 @@ public class CreateChore extends AppCompatActivity {
                 if(good)
                 {
                     createChore(name, points, comments);
-                    Intent intent = new Intent(CreateChore.this, AllChores.class);
+                    Intent intent = new Intent(CreateChore.this, MainActivityFragment.class);
                     startActivity(intent);
                     finish();
                 }

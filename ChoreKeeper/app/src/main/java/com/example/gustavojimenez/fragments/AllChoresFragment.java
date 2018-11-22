@@ -1,29 +1,27 @@
-package com.example.gustavojimenez.chorekeeper;
+package com.example.gustavojimenez.fragments;
 
+
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.Toast;
 
+import com.example.gustavojimenez.chorekeeper.AssignChore;
+import com.example.gustavojimenez.chorekeeper.Chore;
+import com.example.gustavojimenez.chorekeeper.CreateChore;
+import com.example.gustavojimenez.chorekeeper.GlobalVar;
+import com.example.gustavojimenez.chorekeeper.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -37,16 +35,15 @@ import java.util.ArrayList;
 
 import static java.lang.Boolean.TRUE;
 
-
-public class AllChores extends AppCompatActivity {
-
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class AllChoresFragment extends Fragment {
     String housecode = null;
-    Button allChores, myChores, rewards,createchore, house;
+    Button createChore;
     ArrayList<String> chore_arr = new ArrayList<String>();
     ArrayList<String> points_arr = new ArrayList<String>();
     ArrayList<String> descript_arr = new ArrayList<String>();
-
-
 
     private static final String TAG = "AllChores:";
 
@@ -55,92 +52,39 @@ public class AllChores extends AppCompatActivity {
     ArrayList<String> list = new ArrayList<String>();
     ArrayAdapter<String> adapter;
 
+    public AllChoresFragment() {
+        // Required empty public constructor
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_all_chores);
-
-        allChores = findViewById(R.id.all_chores2);
-        myChores = findViewById(R.id.my_chores2);
-        rewards = findViewById(R.id.rewards2);
-        createchore = findViewById(R.id.createChore2);
-        house = findViewById(R.id.house_button2);
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_all_chores, container, false);
         //Added on sunday to help listview
-        Intent editIntent = new Intent(AllChores.this, AssignChore.class);
-        //..................
-
-        listview = findViewById(R.id.allChoresListView);
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,list);
+        Intent editIntent = new Intent(getContext(), AssignChore.class);
+        createChore = view.findViewById(R.id.createChore2);
+        listview = view.findViewById(R.id.fragmentAllChoresListView);
+        adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1,list);
         listview.setAdapter(adapter);
 
-        final GlobalVar globalVariables = (GlobalVar) getApplicationContext();
-        housecode = globalVariables.gethousecode();
-        //Log.e(TAG,"housecode global variable testing: "+housecode);
-        house.setOnClickListener(new View.OnClickListener() {
+        createChore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AllChores.this, Home.class);
+                Intent intent = new Intent(getActivity(),CreateChore.class);
                 startActivity(intent);
-                finish();
             }
         });
-        rewards.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                Intent intent = new Intent(AllChores.this, Rewards.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-        myChores.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                Intent intent = new Intent(AllChores.this, MyChores.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        createchore.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                Intent intent = new Intent(AllChores.this, CreateChore.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-
-
-
-        //get the current housecode
         ValueEventListener sethousecode = new ValueEventListener()
         {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot)
-            {
-                housecode  = dataSnapshot.getValue(String.class);
-
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                housecode = dataSnapshot.getValue(String.class);
                 Log.e(TAG, housecode);
 
-
-
-                //once added, is triggered for every child
-                //then again every time a new child is added.
                 dref = FirebaseDatabase.getInstance().getReference("Chores");
-                dref.addChildEventListener(new ChildEventListener()
-                {
+                dref.addChildEventListener(new ChildEventListener() {
                     @Override
-                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s)
-                    {
+                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                         //the snapshot is the chore object
                         //if the chore belongs to the current house, then we want the data
                         //if not, ignore it
@@ -156,7 +100,7 @@ public class AllChores extends AppCompatActivity {
                             Chore newchore = dataSnapshot.getValue(Chore.class);
 
                             //adds the chores belonging to the house to the global variable
-                            final GlobalVar globalVariables = (GlobalVar) getApplicationContext();
+                            final GlobalVar globalVariables = (GlobalVar) getActivity().getApplicationContext();
                             if(globalVariables.getChores()!= null && !globalVariables.getChores().contains(newchore))
                             {
                                 globalVariables.addHouseChore(newchore);
@@ -209,7 +153,6 @@ public class AllChores extends AppCompatActivity {
                         {
                             //Log.e(TAG, "housecode is null");
                         }
-
                     }
 
                     @Override
@@ -232,30 +175,21 @@ public class AllChores extends AppCompatActivity {
 
                     }
                 });
-
             }
 
             @Override
-            public void onCancelled(DatabaseError Error)
-            {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         };
-
-
-
-
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
         dref = FirebaseDatabase.getInstance().getReference("Users/"+user.getUid()+"/houseCode");
         dref.addListenerForSingleValueEvent(sethousecode);
 
-
-
-
+        // Inflate the layout for this fragment
+        return view;
     }
-
-
     public void updateChoreOwner(String choreid, String ownerid) {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();

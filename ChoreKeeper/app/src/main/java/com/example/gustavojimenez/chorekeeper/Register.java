@@ -226,7 +226,7 @@ public class Register extends AppCompatActivity {
                                                     Toast.LENGTH_LONG).show();
 
                                             //everything is fine, go to the home page
-                                            Intent intent = new Intent(Register.this, Home.class);
+                                            Intent intent = new Intent(Register.this, MainActivityFragment.class);
                                             startActivity(intent);
                                             finish();
                                         }
@@ -272,7 +272,7 @@ public class Register extends AppCompatActivity {
                                                     Toast.LENGTH_LONG).show();
 
                                             //everything is fine, go to the home page
-                                            Intent intent = new Intent(Register.this, Home.class);
+                                            Intent intent = new Intent(Register.this, MainActivityFragment.class);
                                             startActivity(intent);
                                             finish();
                                         }

@@ -73,7 +73,7 @@ public class CreateReward extends AppCompatActivity {
                 if(good)
                 {
                     createReward(name, points, comments);
-                    Intent intent = new Intent(CreateReward.this, Rewards.class);
+                    Intent intent = new Intent(CreateReward.this, MainActivityFragment.class);
                     startActivity(intent);
                     finish();
                 }
@@ -91,7 +91,7 @@ public class CreateReward extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                Intent intent = new Intent(CreateReward.this, Rewards.class);
+                Intent intent = new Intent(CreateReward.this, MainActivityFragment.class);
                 startActivity(intent);
                 finish();
             }

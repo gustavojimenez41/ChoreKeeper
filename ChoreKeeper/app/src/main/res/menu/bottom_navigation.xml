@@ -8,13 +8,13 @@
     <item
         android:id="@+id/nav_chores"
         android:icon="@drawable/ic_work_black_24dp"
-        android:title="Home"/>
+        android:title="All Chores"/>
     <item
         android:id="@+id/nav_myChores"
         android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="Home"/>
+        android:title="My Chores"/>
     <item
         android:id="@+id/nav_rewards"
         android:icon="@drawable/ic_star_black_24dp"
-        android:title="Home"/>
+        android:title="Rewards"/>
 </menu>

@@ -1,5 +1,15 @@
-package com.example.gustavojimenez.chorekeeper;
+package com.example.gustavojimenez.fragments;
 
+
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.example.gustavojimenez.chorekeeper.GlobalVar;
+import com.example.gustavojimenez.chorekeeper.R;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -15,6 +25,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.gustavojimenez.chorekeeper.UserDetails;
+import com.example.gustavojimenez.chorekeeper.userAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -24,7 +36,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class Home extends AppCompatActivity {
+
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class HomeFragment extends Fragment {
 
     DatabaseReference dref;
     String housecode = null;
@@ -35,76 +51,33 @@ public class Home extends AppCompatActivity {
     String[] users;
     String[] scores;
     Button allChores, myChores, rewards, homeTemp;
+    public HomeFragment() {
+        // Required empty public constructor
+    }
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        setHasOptionsMenu(true);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
         Resources res = getResources();
-        userListView = (ListView) findViewById(R.id.userListView);
+        userListView = (ListView) view.findViewById(R.id.fragmentMyHomeListView);
         users = res.getStringArray(R.array.users);
-
         scores = res.getStringArray(R.array.scores);
-        allChores = findViewById(R.id.all_chores);
-        myChores = findViewById(R.id.my_chores);
-        rewards = findViewById(R.id.Rewards);
-        homeTemp = findViewById(R.id.button2);
-        userAdapter userAdapter = new userAdapter(this, users, scores);
+        userAdapter userAdapter = new userAdapter(getActivity(), users, scores);
         userListView.setAdapter(userAdapter);
-
         //instance of the global variables
-        final GlobalVar globalVariables = (GlobalVar) getApplicationContext();
-
-        homeTemp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Home.this, MainActivityFragment.class);
-                startActivity(intent);
-            }
-        });
+        final GlobalVar globalVariables = (GlobalVar) getActivity().getApplicationContext();
         userListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent showDetailActivity = new Intent(getApplicationContext(), UserDetails.class);
+                Intent showDetailActivity = new Intent(getActivity().getApplicationContext(), UserDetails.class);
                 showDetailActivity.putExtra("com.example.gustavojimenez.USER_INDEX",i);
                 startActivity(showDetailActivity);
             }
         });
-
-        rewards.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                Intent intent = new Intent(Home.this, Rewards.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-        allChores.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                Intent intent = new Intent(Home.this, AllChores.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        myChores.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                Intent intent = new Intent(Home.this, MyChores.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-
-
         //getting information of the users to display
         //get the current housecode
         ValueEventListener sethousecode = new ValueEventListener()
@@ -185,10 +158,6 @@ public class Home extends AppCompatActivity {
 
             }
         };
-
-
-
-
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
         //Log.e(TAG, "uesrid is :"+ user.getUid());
@@ -198,30 +167,28 @@ public class Home extends AppCompatActivity {
         userListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent showDetailActivity = new Intent(getApplicationContext(), UserDetails.class);
+                Intent showDetailActivity = new Intent(getActivity().getApplicationContext(), UserDetails.class);
                 showDetailActivity.putExtra("com.example.gustavojimenez.USER_INDEX",i);
                 startActivity(showDetailActivity);
             }
         });
 
+        return view;
     }
 
-    public void goToSettings(View view) {
-        Intent intent = new Intent(Home.this, SettingsActivity.class);
-        startActivity(intent);
-    }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu, menu);
+        super.onCreateOptionsMenu(menu,inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if(id == R.id.actionBarSettings)
-            Toast.makeText(this,"works",Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(),"works",Toast.LENGTH_LONG).show();
         return super.onOptionsItemSelected(item);
     }
 }
+

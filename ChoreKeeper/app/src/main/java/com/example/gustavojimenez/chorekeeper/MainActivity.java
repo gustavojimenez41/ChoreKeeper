@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,7 +22,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class MainActivity extends AppCompatActivity {
     Button registerButton;
     Button login;
-
+    Button resetPass;
     //these two are for authentication system
     FirebaseAuth firebaseauth;
     FirebaseUser user;
@@ -46,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
             Log.e(TAG,"user id: " + user.getUid());
             globalVariables.setUserid(user.getUid());
 
-            Intent intent = new Intent(MainActivity.this,Home.class);
+            Intent intent = new Intent(MainActivity.this,MainActivityFragment.class);
             startActivity(intent);
             finish();
         }
@@ -60,6 +62,14 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, Register.class);
                 startActivity(intent);
                 //finish();
+            }
+        });
+        resetPass = findViewById(R.id.resetPassword);
+        resetPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, MainActivityFragment.class);
+                startActivity(intent);
             }
         });
         login = findViewById(R.id.loginButton);
@@ -98,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                     {
                         globalVariables.setUserid(user.getUid());
 
-                        Intent intent = new Intent(MainActivity.this, Home.class);
+                        Intent intent = new Intent(MainActivity.this, MainActivityFragment.class);
                         startActivity(intent);
                         finish();
                     }
@@ -141,5 +151,18 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.actionBarSettings)
+            Toast.makeText(this,"works",Toast.LENGTH_SHORT);
+        return super.onOptionsItemSelected(item);
+    }
 }
 
