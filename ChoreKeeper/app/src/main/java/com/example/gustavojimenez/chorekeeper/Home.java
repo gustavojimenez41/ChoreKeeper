@@ -158,7 +158,7 @@ public class Home extends AppCompatActivity {
                             final GlobalVar globalVariables = (GlobalVar) getApplicationContext();
                             List<User> users = globalVariables.getUsers();
 
-                            //tests if the list already containts that user
+                            //tests if the list already contains that user
                             if(globalVariables.getUsers()== null || !containsUser(users,newuser))
                             {
                                 globalVariables.addHouseUser(newuser);

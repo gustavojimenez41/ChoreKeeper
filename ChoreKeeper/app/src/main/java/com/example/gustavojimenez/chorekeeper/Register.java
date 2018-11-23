@@ -64,7 +64,6 @@ public class Register extends AppCompatActivity {
         spinner.setVisibility(View.GONE);
 
         //if someone is currently signed in, we sign them out?
-        //NOT SURE WHAT THIS DOES
         auth = FirebaseAuth.getInstance();
         if(auth.getCurrentUser()!=null)
         {
@@ -248,10 +247,7 @@ public class Register extends AppCompatActivity {
                                     //the user wants to create a house
                                     else
                                     {
-                                        //that code already exists
-                                        //minor issue right now:
-                                        //this could be that 2 names hashed to the name code
-                                        //very low probability of this
+
                                         if(exists)
                                         {
                                             Toast.makeText(Register.this, "A House with that name already exists",
@@ -310,7 +306,6 @@ public class Register extends AppCompatActivity {
 
                             spinner.setVisibility(View.GONE);
                          }
-
                     }
                 });
 
@@ -323,6 +318,7 @@ public class Register extends AppCompatActivity {
         auth.signOut();
     }
 
+
     //adds the user currently signed in to the house given by hCode
     private void addUserToHouse(String hCode, String name)
     {
@@ -334,6 +330,7 @@ public class Register extends AppCompatActivity {
         dbref.child(newUser.getID()).setValue(newUser);
 
         //add the user to the house
+        //if the house doesn't exist yet it will create it
         dbref = db.getReference("Houses/" + hCode + "/members");
         dbref.child(newUser.getID()).setValue(TRUE);
 

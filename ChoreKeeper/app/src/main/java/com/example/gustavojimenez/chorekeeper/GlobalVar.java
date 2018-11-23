@@ -68,12 +68,6 @@ public class GlobalVar extends Application
     }
 
 
-
-
-
-
-
-
     private static Context sContext;
 
     //needed to use this class in Database

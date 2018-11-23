@@ -26,6 +26,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.concurrent.TimeUnit;
+
 public class MainActivity extends AppCompatActivity {
     Button registerButton;
     Button login;
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     String housecode = null;
 
     private static final String TAG = "Main Activity: ";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +114,14 @@ public class MainActivity extends AppCompatActivity {
                 if(good)
                 {
                     signIn(mail, pass);
+                    try
+                    {
+                        Thread.sleep(1000);
+                    }
+                    catch(InterruptedException ex)
+                    {
+                        Thread.currentThread().interrupt();
+                    }
                     user = firebaseauth.getCurrentUser();
 
                     //if the sign in works, go to home page
@@ -134,6 +145,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+
 
     private void signIn(String email, String password)
     {

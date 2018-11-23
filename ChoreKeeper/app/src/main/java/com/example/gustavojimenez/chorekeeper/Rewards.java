@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 public class Rewards extends AppCompatActivity {
     Button allChores, myChores, home, createRewards;
     String housecode;
+    FirebaseAuth firebaseauth;
     DatabaseReference dref;
 
     private static final String TAG = "Rewards:";
@@ -97,6 +99,7 @@ public class Rewards extends AppCompatActivity {
                 dref.addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
                         //the snapshot is the chore object
                         //if the chore belongs to the current house, then we want the data
                         //if not, ignore it
@@ -164,6 +167,68 @@ public class Rewards extends AppCompatActivity {
         FirebaseUser user = auth.getCurrentUser();
         dref = FirebaseDatabase.getInstance().getReference("Users/"+user.getUid()+"/houseCode");
         dref.addListenerForSingleValueEvent(sethousecode);
+    }
+
+
+
+    void redeemReward(String rewardId)
+    {
+        //deciding now to leave the reward in the database because of time constraints
+        //remove point value from the user
+        //when the chore is completed, remove the chore from the database
+        dref = FirebaseDatabase.getInstance().getReference("Rewards/"+rewardId);
+
+        //add the point value of the chore to the users points
+        dref.addListenerForSingleValueEvent(new ValueEventListener()
+        {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+
+                FirebaseUser user = firebaseauth.getInstance().getCurrentUser();
+                int rpoints = dataSnapshot.child("points").getValue(int.class);
+
+                DatabaseReference userref = FirebaseDatabase.getInstance().getReference("Users/"+user.getUid());
+                userref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                    {
+                        int upoint = dataSnapshot.child("points").getValue(int.class);
+                        if(upoint>=rpoints)
+                        {
+                            upoint -= rpoints;
+                            userref.child("points").setValue(upoint);
+
+                        }
+                        else
+                        {
+
+                            Toast.makeText(Rewards.this, "Insufficient points",
+                                    Toast.LENGTH_LONG).show();
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError Error)
+            {
+                Toast.makeText(Rewards.this, "Redeem Reward failed",
+                        Toast.LENGTH_LONG).show();
+
+            }
+        });
+
     }
 }
 
