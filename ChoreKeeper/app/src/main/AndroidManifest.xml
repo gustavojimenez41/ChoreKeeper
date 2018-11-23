@@ -42,7 +42,7 @@
         <activity
             android:name=".AssignChore"
             android:exported="true" />
-
+        <activity android:name=".Assign_Reward"></activity>
     </application>
 
 </manifest>

@@ -182,12 +182,7 @@ public class AllChores extends AppCompatActivity {
 
 
 
-                            //Added Code on Sunday to add intent to listview
-                            //editIntent.putExtra("name",name);
-                            //editIntent.putExtra("points", stringPoints);
-                            //editIntent.putExtra("comment",comments);
-                            //startActivity(editIntent);
-                            //....................................................
+
                             adapter.notifyDataSetChanged();
 
                             listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {

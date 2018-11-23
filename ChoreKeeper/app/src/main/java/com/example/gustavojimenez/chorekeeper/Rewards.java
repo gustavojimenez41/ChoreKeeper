@@ -7,7 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,19 +21,28 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 
 public class Rewards extends AppCompatActivity {
     Button allChores, myChores, home, createRewards;
     String housecode;
     FirebaseAuth firebaseauth;
     DatabaseReference dref;
+    ArrayList<String> rewards_arr = new ArrayList<String>();
 
+    ListView listview;
+    ArrayList<String> list = new ArrayList<String>();
+    ArrayAdapter<String> adapter;
     private static final String TAG = "Rewards:";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
 
+        listview = findViewById(R.id.rewardsListView);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,list);
+        listview.setAdapter(adapter);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rewards);
@@ -119,7 +130,12 @@ public class Rewards extends AppCompatActivity {
                             String comments = (String) dataSnapshot.child("comments").getValue();
                             long points = (long)dataSnapshot.child("points").getValue();
                             String stringPoints = Long.toString(points);
+                            String reward = (String) dataSnapshot.child("rewards").getValue();
 
+                            list.add("\n"+name);
+                            rewards_arr.add(reward);
+
+                            adapter.notifyDataSetChanged();
 
                             //this is where you do whatever you need to do with the data
                         }

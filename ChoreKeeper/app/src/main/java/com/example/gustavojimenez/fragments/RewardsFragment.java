@@ -9,13 +9,15 @@ import android.view.ViewGroup;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 
+import com.example.gustavojimenez.chorekeeper.AssignChore;
+import com.example.gustavojimenez.chorekeeper.Assign_Reward;
 import com.example.gustavojimenez.chorekeeper.CreateReward;
-import com.example.gustavojimenez.chorekeeper.Rewards;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -27,6 +29,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import com.example.gustavojimenez.chorekeeper.R;
 
+import java.util.ArrayList;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,19 +39,32 @@ public class RewardsFragment extends Fragment {
 
     Button allChores, myChores, home, createRewards;
     String housecode;
+    ArrayList<String> rewards_arr = new ArrayList<String>();
+    ArrayList<String> points_arr = new ArrayList<String>();
+    ArrayList<String> description_arr = new ArrayList<String>();
+
     DatabaseReference dref;
 
     private static final String TAG = "Rewards:";
+    ListView listview;
+    ArrayList<String> list = new ArrayList<String>();
+    ArrayAdapter<String> adapter;
     public RewardsFragment() {
         // Required empty public constructor
     }
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_rewards, container, false);
+        Intent editIntent = new Intent(getContext(), Assign_Reward.class);
         createRewards = view.findViewById(R.id.fragmentCreateRewards);
+        listview = view.findViewById(R.id.rewardsListView);
+        adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1,list);
+        listview.setAdapter(adapter);
         createRewards.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -57,6 +74,7 @@ public class RewardsFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
         //get the current housecode
         ValueEventListener sethousecode = new ValueEventListener()
         {
@@ -95,6 +113,27 @@ public class RewardsFragment extends Fragment {
 
 
                             //this is where you do whatever you need to do with the data
+                            list.add("\n"+name);
+                            rewards_arr.add(name);
+                            points_arr.add(stringPoints);
+                            description_arr.add(comments);
+                            adapter.notifyDataSetChanged();
+
+
+                            listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                                    String name = rewards_arr.get(i);
+                                    String points2 = points_arr.get(i);
+                                    String comment = description_arr.get(i);
+                                    editIntent.putExtra("name",name);
+                                    editIntent.putExtra("points", points2);
+                                    editIntent.putExtra("comment",comment);
+                                    startActivity(editIntent);
+                                }
+                            });
+
                         }
                         else
                         {

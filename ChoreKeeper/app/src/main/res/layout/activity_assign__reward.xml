@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AssignChore">
+    tools:context=".Assign_Reward">
 
-
-      <TextView
+    <TextView
         android:id="@+id/chore_name"
         android:layout_width="216dp"
         android:layout_height="41dp"
