@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gustavojimenez.chorekeeper.UserDetails;
@@ -41,6 +42,7 @@ import com.google.firebase.database.ValueEventListener;
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends Fragment {
+    TextView H_code;
 
     DatabaseReference dref;
     String housecode = null;
@@ -63,8 +65,10 @@ public class HomeFragment extends Fragment {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         Resources res = getResources();
+
+        H_code = (TextView) view.findViewById(R.id.H_code);
         userListView = (ListView) view.findViewById(R.id.fragmentMyHomeListView);
-        users = res.getStringArray(R.array.users);
+        users =
         scores = res.getStringArray(R.array.scores);
         userAdapter userAdapter = new userAdapter(getActivity(), users, scores);
         userListView.setAdapter(userAdapter);
@@ -89,6 +93,8 @@ public class HomeFragment extends Fragment {
                 globalVariables.setHousecode(housecode);
                 Log.e(TAG, "current house code is: "+housecode);
                 Log.e(TAG, "setting global varibale");
+
+                H_code.setText("HouseCode:"+housecode);
 
 
 
