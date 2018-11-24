@@ -220,7 +220,7 @@ public class Register extends AppCompatActivity {
                                         //the house exists
                                         if(exists)
                                         {
-                                            addUserToHouse(hCode,hName);
+                                            addUserToHouse(hCode,hName, username);
 
                                             Toast.makeText(Register.this, "Account Created",
                                                     Toast.LENGTH_LONG).show();
@@ -263,7 +263,7 @@ public class Register extends AppCompatActivity {
                                         //add the user to the house and go to the home page
                                         else
                                         {
-                                            addUserToHouse(hCode,hName);
+                                            addUserToHouse(hCode,hName, username);
 
                                             Toast.makeText(Register.this, "Account Created",
                                                     Toast.LENGTH_LONG).show();
@@ -320,12 +320,12 @@ public class Register extends AppCompatActivity {
 
 
     //adds the user currently signed in to the house given by hCode
-    private void addUserToHouse(String hCode, String name)
+    private void addUserToHouse(String hCode, String name, String username)
     {
         //create new user
         FirebaseUser user = auth.getCurrentUser();
 
-        User newUser = new User(user.getUid(),hCode);
+        User newUser = new User(user.getUid(),hCode, username);
         dbref = db.getReference("Users");
         dbref.child(newUser.getID()).setValue(newUser);
 

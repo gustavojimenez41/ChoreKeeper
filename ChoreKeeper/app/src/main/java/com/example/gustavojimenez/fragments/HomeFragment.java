@@ -131,7 +131,11 @@ public class HomeFragment extends Fragment {
 
                             String userid = dataSnapshot.getKey();
                             long points = (long) dataSnapshot.child("points").getValue();
-                            String username = user.getDisplayName();
+                            String username = dataSnapshot.child("uname").getValue(String.class);
+                            if(username == null)
+                            {
+                                username = userid;
+                            }
 
                             if(!containsUsername(list, username))
                             {
@@ -140,7 +144,7 @@ public class HomeFragment extends Fragment {
 
 
 
-                            User newuser = new User(userid,housecode,(int)points);
+                            User newuser = new User(userid,housecode,(int)points, username);
 
 
                             //adds the list of users to the global variable so that the list can be used
