@@ -21,9 +21,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".Register" />
-        <activity
-            android:name=".Home"
-            android:exported="true" />
         <activity android:name=".UserDetails" />
         <activity
             android:name=".SettingsActivity"
@@ -33,9 +30,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.gustavojimenez.chorekeeper.Home" />
         </activity>
-        <activity android:name=".Rewards" />
-        <activity android:name=".AllChores" />
-        <activity android:name=".MyChores" />
         <activity android:name=".CreateChore" />
         <activity android:name=".CreateReward" />
         <activity android:name=".MainActivityFragment" />
