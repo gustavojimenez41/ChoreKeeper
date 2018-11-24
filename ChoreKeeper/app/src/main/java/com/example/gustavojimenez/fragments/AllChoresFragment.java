@@ -32,6 +32,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static java.lang.Boolean.TRUE;
 
@@ -51,7 +52,7 @@ public class AllChoresFragment extends Fragment {
     ListView listview;
     ArrayList<String> list = new ArrayList<String>();
     ArrayAdapter<String> adapter;
-    int i = 1;
+
 
     public AllChoresFragment() {
         // Required empty public constructor
@@ -119,8 +120,12 @@ public class AllChoresFragment extends Fragment {
 
 
                             //add the Id to the list
+                            if(!containsUsername(list, "\n"+name+ "\n"+ stringPoints +"pts"+"\n"+comments+"\n"))
+                            {
+                                list.add("\n"+name+ "\n"+ stringPoints +"pts"+"\n"+comments+"\n");
+                            }
 
-                            list.add("\n"+name+ "\n"+ stringPoints +"pts"+"\n"+comments+"\n");
+                           // list.add("\n"+name+ "\n"+ stringPoints +"pts"+"\n"+comments+"\n");
                             chore_arr.add(name);
                             points_arr.add(stringPoints);
                             descript_arr.add(comments);
@@ -205,5 +210,19 @@ public class AllChoresFragment extends Fragment {
         //add the owner to the chore
         dref = FirebaseDatabase.getInstance().getReference("Chores/"+choreid);
         dref.child(ownerid).setValue(ownerid);
+    }
+    public boolean containsUsername(List<String> list, String name)
+    {
+        int i = 0;
+        while(i<list.size())
+        {
+            if(list.get(i).equals(name))
+            {
+                return true;
+            }
+            i++;
+        }
+
+        return false;
     }
 }

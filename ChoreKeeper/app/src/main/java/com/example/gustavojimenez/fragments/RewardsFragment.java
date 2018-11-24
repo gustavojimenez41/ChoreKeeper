@@ -18,7 +18,9 @@ import android.widget.Toast;
 
 import com.example.gustavojimenez.chorekeeper.AssignChore;
 import com.example.gustavojimenez.chorekeeper.Assign_Reward;
+import com.example.gustavojimenez.chorekeeper.Chore;
 import com.example.gustavojimenez.chorekeeper.CreateReward;
+import com.example.gustavojimenez.chorekeeper.GlobalVar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -31,6 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.example.gustavojimenez.chorekeeper.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -102,8 +105,13 @@ public class RewardsFragment extends Fragment {
 
                         if(rewardhousecode != null && rewardhousecode.equals(housecode))
                         {
+                            Chore newchore = dataSnapshot.getValue(Chore.class);
 
-
+                            final GlobalVar globalVariables = (GlobalVar) getActivity().getApplicationContext();
+                            if(globalVariables.getChores()!= null && !globalVariables.getChores().contains(newchore))
+                            {
+                                globalVariables.addHouseChore(newchore);
+                            }
                             String rewardID = dataSnapshot.getKey();
 
                             //retrieve all the attributes
@@ -114,13 +122,18 @@ public class RewardsFragment extends Fragment {
 
 
                             //this is where you do whatever you need to do with the data
-                            list.add("\n"+name);
+                           //list.add("\n"+name);
+                            if(!containsUsername(list,"\n"+name+ "\n"+ stringPoints +"pts"+"\n"+comments+"\n"))
+                            {
+                                list.add("\n"+name+ "\n"+ stringPoints +"pts"+"\n"+comments+"\n");
+
+                            }
+//
+
                             rewards_arr.add(name);
                             points_arr.add(stringPoints);
                             description_arr.add(comments);
                             adapter.notifyDataSetChanged();
-
-
                             listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -242,6 +255,20 @@ public class RewardsFragment extends Fragment {
             }
         });
 
+    }
+    public boolean containsUsername(List<String> list, String name)
+    {
+        int i = 0;
+        while(i<list.size())
+        {
+            if(list.get(i).equals(name))
+            {
+                return true;
+            }
+            i++;
+        }
+
+        return false;
     }
 
 }
