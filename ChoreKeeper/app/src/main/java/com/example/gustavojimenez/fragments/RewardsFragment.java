@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.gustavojimenez.chorekeeper.AssignChore;
 import com.example.gustavojimenez.chorekeeper.Assign_Reward;
@@ -181,6 +182,66 @@ public class RewardsFragment extends Fragment {
         dref.addListenerForSingleValueEvent(sethousecode);
         // Inflate the layout for this fragment
         return view;
+    }
+
+    void redeemReward(String rewardId)
+    {
+        //deciding now to leave the reward in the database because of time constraints
+        //remove point value from the user
+        //when the chore is completed, remove the chore from the database
+        dref = FirebaseDatabase.getInstance().getReference("Rewards/"+rewardId);
+
+        //add the point value of the chore to the users points
+        dref.addListenerForSingleValueEvent(new ValueEventListener()
+        {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                int rpoints = dataSnapshot.child("points").getValue(int.class);
+
+                DatabaseReference userref = FirebaseDatabase.getInstance().getReference("Users/"+user.getUid());
+                userref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot)
+                    {
+                        int upoint = dataSnapshot.child("points").getValue(int.class);
+                        if(upoint>=rpoints)
+                        {
+                            upoint -= rpoints;
+                            userref.child("points").setValue(upoint);
+
+                        }
+                        else
+                        {
+
+                            Toast.makeText(getActivity(), "Insufficient points",
+                                    Toast.LENGTH_LONG).show();
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError Error)
+            {
+                Toast.makeText(getActivity(), "Redeem Reward failed",
+                        Toast.LENGTH_LONG).show();
+
+            }
+        });
+
     }
 
 }

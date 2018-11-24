@@ -27,6 +27,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.example.gustavojimenez.chorekeeper.User;
 import com.example.gustavojimenez.chorekeeper.UserDetails;
 import com.example.gustavojimenez.chorekeeper.userAdapter;
@@ -39,8 +40,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+
 import java.util.ArrayList;
+
 import java.util.List;
+
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 
 /**
@@ -94,6 +99,14 @@ public class HomeFragment extends Fragment {
 
                 H_code.setText("HouseCode:"+housecode);
 
+/*
+                ListUsersPage page = FirebaseAuth.getInstance().listUsers(null);
+                for (ExportedUserRecord user : page.iterateAll()) {
+                    System.out.println("User: " + user.getUid());
+                }
+                */
+
+
 
 
 
@@ -119,15 +132,25 @@ public class HomeFragment extends Fragment {
                             String userid = dataSnapshot.getKey();
                             long points = (long) dataSnapshot.child("points").getValue();
                             String username = user.getDisplayName();
-                            list.add(username);
 
-                            User newuser = new User(userid, housecode, (int) points);
+                            if(!containsUsername(list, username))
+                            {
+                                list.add(username);
+                            }
+
+
+
+                            User newuser = new User(userid,housecode,(int)points);
+
+
+                            //adds the list of users to the global variable so that the list can be used
+                            //elsewhere
 
                             final GlobalVar globalVariables = (GlobalVar) getActivity().getApplicationContext();
                             List<User> users = globalVariables.getUsers();
 
-
-                            if (globalVariables.getUsers() == null || !containsUser(users, newuser))
+                            //tests if the list already contains that user
+                            if(globalVariables.getUsers()== null || !containsUser(users,newuser))
                             {
                                 globalVariables.addHouseUser(newuser);
                             }
@@ -199,10 +222,14 @@ public class HomeFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+
+
+    //returns true if the user list contains that user
+    //returns false if it does not
     public boolean containsUser(List<User> list, User u)
     {
-        int i =0;
-        while (i< list.size())
+        int i = 0;
+        while(i<list.size())
         {
             if(list.get(i).getID().equals(u.getID()))
             {
@@ -210,7 +237,27 @@ public class HomeFragment extends Fragment {
             }
             i++;
         }
+
+        return false;
+
+    }
+
+    public boolean containsUsername(List<String> list,String name)
+    {
+        int i = 0;
+        while(i<list.size())
+        {
+            if(list.get(i).equals(name))
+            {
+                return true;
+            }
+            i++;
+        }
+
         return false;
     }
+
+
+
 }
 

@@ -191,6 +191,8 @@ public class AllChoresFragment extends Fragment {
 
         // Inflate the layout for this fragment
         return view;
+
+
     }
     public void updateChoreOwner(String choreid, String ownerid) {
         FirebaseAuth auth = FirebaseAuth.getInstance();
