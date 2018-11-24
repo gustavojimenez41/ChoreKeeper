@@ -105,13 +105,7 @@ public class RewardsFragment extends Fragment {
 
                         if(rewardhousecode != null && rewardhousecode.equals(housecode))
                         {
-                            Chore newchore = dataSnapshot.getValue(Chore.class);
 
-                            final GlobalVar globalVariables = (GlobalVar) getActivity().getApplicationContext();
-                            if(globalVariables.getChores()!= null && !globalVariables.getChores().contains(newchore))
-                            {
-                                globalVariables.addHouseChore(newchore);
-                            }
                             String rewardID = dataSnapshot.getKey();
 
                             //retrieve all the attributes
@@ -126,13 +120,13 @@ public class RewardsFragment extends Fragment {
                             if(!containsUsername(list,"\n"+name+ "\n"+ stringPoints +"pts"+"\n"+comments+"\n"))
                             {
                                 list.add("\n"+name+ "\n"+ stringPoints +"pts"+"\n"+comments+"\n");
-
+                                rewards_arr.add(name);
+                                points_arr.add(stringPoints);
+                                description_arr.add(comments);
                             }
 //
 
-                            rewards_arr.add(name);
-                            points_arr.add(stringPoints);
-                            description_arr.add(comments);
+
                             adapter.notifyDataSetChanged();
                             listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
