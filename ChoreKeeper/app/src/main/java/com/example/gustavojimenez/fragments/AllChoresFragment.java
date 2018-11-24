@@ -120,11 +120,11 @@ public class AllChoresFragment extends Fragment {
 
                             //add the Id to the list
 
-                            list.add("\n"+name+ i + "\n"+ stringPoints +"pts"+"\n"+comments+"\n");
+                            list.add("\n"+name+ "\n"+ stringPoints +"pts"+"\n"+comments+"\n");
                             chore_arr.add(name);
                             points_arr.add(stringPoints);
                             descript_arr.add(comments);
-                            i ++;
+
 
 
 

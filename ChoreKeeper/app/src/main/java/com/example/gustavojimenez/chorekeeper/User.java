@@ -14,7 +14,7 @@ public class User {
 
     User(){};
 
-    User(String ID, String code, int p)
+    public User(String ID, String code, int p)
     {
         this.userID = ID;
         this.houseCode = code;

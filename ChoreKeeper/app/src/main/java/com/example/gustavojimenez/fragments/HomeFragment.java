@@ -21,11 +21,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.gustavojimenez.chorekeeper.User;
 import com.example.gustavojimenez.chorekeeper.UserDetails;
 import com.example.gustavojimenez.chorekeeper.userAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,21 +39,26 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends Fragment {
     TextView H_code;
+    ArrayList<String> users = new ArrayList<String>();
 
     DatabaseReference dref;
     String housecode = null;
     int i = 0;
     private static final String TAG = "Home:";
 
-    ListView userListView;
-    String[] users;
-    String[] scores;
+    ListView listview;
+    ArrayList<String> list = new ArrayList<String>();
+    ArrayAdapter<String> adapter;
+
     Button allChores, myChores, rewards, homeTemp;
     public HomeFragment() {
         // Required empty public constructor
@@ -65,23 +72,14 @@ public class HomeFragment extends Fragment {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         Resources res = getResources();
-
         H_code = (TextView) view.findViewById(R.id.H_code);
-        userListView = (ListView) view.findViewById(R.id.fragmentMyHomeListView);
-        users =
-        scores = res.getStringArray(R.array.scores);
-        userAdapter userAdapter = new userAdapter(getActivity(), users, scores);
-        userListView.setAdapter(userAdapter);
+        listview = view.findViewById(R.id.fragmentMyHomeListView);
+        adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1,list);
+        listview.setAdapter(adapter);
+
         //instance of the global variables
         final GlobalVar globalVariables = (GlobalVar) getActivity().getApplicationContext();
-        userListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent showDetailActivity = new Intent(getActivity().getApplicationContext(), UserDetails.class);
-                showDetailActivity.putExtra("com.example.gustavojimenez.USER_INDEX",i);
-                startActivity(showDetailActivity);
-            }
-        });
+
         //getting information of the users to display
         //get the current housecode
         ValueEventListener sethousecode = new ValueEventListener()
@@ -111,8 +109,7 @@ public class HomeFragment extends Fragment {
                         String userhousecode = dataSnapshot.child("houseCode").getValue(String.class);
                         Log.e(TAG, "checking  user houseCode: " + userhousecode);
 
-                        if(userhousecode != null && userhousecode.equals(housecode))
-                        {
+                        if(userhousecode != null && userhousecode.equals(housecode)) {
 
                             FirebaseAuth auth = FirebaseAuth.getInstance();
                             FirebaseUser user = auth.getCurrentUser();
@@ -120,8 +117,20 @@ public class HomeFragment extends Fragment {
                             //retrieve all the attributes
 
                             String userid = dataSnapshot.getKey();
-                            long points = (long)dataSnapshot.child("points").getValue();
+                            long points = (long) dataSnapshot.child("points").getValue();
                             String username = user.getDisplayName();
+                            list.add(username);
+
+                            User newuser = new User(userid, housecode, (int) points);
+
+                            final GlobalVar globalVariables = (GlobalVar) getActivity().getApplicationContext();
+                            List<User> users = globalVariables.getUsers();
+
+
+                            if (globalVariables.getUsers() == null || !containsUser(users, newuser))
+                            {
+                                globalVariables.addHouseUser(newuser);
+                            }
 
 
 
@@ -170,14 +179,7 @@ public class HomeFragment extends Fragment {
         dref = FirebaseDatabase.getInstance().getReference("Users/"+user.getUid()+"/houseCode");
         dref.addListenerForSingleValueEvent(sethousecode);
 
-        userListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent showDetailActivity = new Intent(getActivity().getApplicationContext(), UserDetails.class);
-                showDetailActivity.putExtra("com.example.gustavojimenez.USER_INDEX",i);
-                startActivity(showDetailActivity);
-            }
-        });
+
 
         return view;
     }
@@ -195,6 +197,20 @@ public class HomeFragment extends Fragment {
         if(id == R.id.actionBarSettings)
             Toast.makeText(getActivity(),"works",Toast.LENGTH_LONG).show();
         return super.onOptionsItemSelected(item);
+    }
+
+    public boolean containsUser(List<User> list, User u)
+    {
+        int i =0;
+        while (i< list.size())
+        {
+            if(list.get(i).getID().equals(u.getID()))
+            {
+                return true;
+            }
+            i++;
+        }
+        return false;
     }
 }
 

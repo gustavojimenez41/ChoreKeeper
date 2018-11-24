@@ -25,10 +25,10 @@
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".Home">
+            android:parentActivityName=".HomeFragment">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.gustavojimenez.chorekeeper.Home" />
+                android:value="com.example.gustavojimenez.chorekeeper.HomeFragment" />
         </activity>
         <activity android:name=".CreateChore" />
         <activity android:name=".CreateReward" />
