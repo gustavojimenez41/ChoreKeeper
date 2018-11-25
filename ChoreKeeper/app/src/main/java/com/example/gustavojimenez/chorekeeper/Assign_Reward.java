@@ -3,6 +3,7 @@ package com.example.gustavojimenez.chorekeeper;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -15,6 +16,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.List;
 
 public class Assign_Reward extends AppCompatActivity {
+
+    private static final String TAG = "AssignRewards:";
 
     TextView textElement,pointelement,commentelement;
 
@@ -33,6 +36,7 @@ public class Assign_Reward extends AppCompatActivity {
 
 
         //NewText is where we need to pass in the name of the chore.
+
         String newText;
         String point, comment;
         newText = receivedTent.getStringExtra("name");

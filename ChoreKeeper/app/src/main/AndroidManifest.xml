@@ -33,6 +33,7 @@
         <activity android:name=".CreateChore" />
         <activity android:name=".CreateReward" />
         <activity android:name=".MainActivityFragment" />
+        <activity android:name=".Assign_Reward" />
         <activity
             android:name=".AssignChore"
             android:exported="true" />

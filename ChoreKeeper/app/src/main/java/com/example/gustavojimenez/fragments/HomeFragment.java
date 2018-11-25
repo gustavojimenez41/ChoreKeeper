@@ -29,6 +29,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.example.gustavojimenez.chorekeeper.Register;
+import com.example.gustavojimenez.chorekeeper.Settings;
 import com.example.gustavojimenez.chorekeeper.User;
 import com.example.gustavojimenez.chorekeeper.UserDetails;
 import com.example.gustavojimenez.chorekeeper.userAdapter;
@@ -243,7 +245,11 @@ public class HomeFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if(id == R.id.actionBarSettings)
-            Toast.makeText(getActivity(),"works",Toast.LENGTH_LONG).show();
+        {
+            Intent intent = new Intent(getActivity(), Settings.class);
+            startActivity(intent);
+        }
+
         return super.onOptionsItemSelected(item);
     }
 

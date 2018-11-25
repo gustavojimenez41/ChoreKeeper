@@ -65,7 +65,7 @@ public class RewardsFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_rewards, container, false);
-        Intent editIntent = new Intent(getContext(), AssignChore.class);
+        Intent editIntent = new Intent(getContext(), Assign_Reward.class);
         createRewards = view.findViewById(R.id.fragmentCreateRewards);
         listview = view.findViewById(R.id.rewardsListView);
         adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1,list);
@@ -131,7 +131,8 @@ public class RewardsFragment extends Fragment {
                             adapter.notifyDataSetChanged();
                             listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
-                                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
+                                {
 
                                     String name = rewards_arr.get(i);
                                     String points2 = points_arr.get(i);
