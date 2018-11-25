@@ -15,8 +15,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.gustavojimenez.chorekeeper.Chore;
 import com.example.gustavojimenez.chorekeeper.CreateChore;
+import com.example.gustavojimenez.chorekeeper.GlobalVar;
 import com.example.gustavojimenez.chorekeeper.R;
+import com.example.gustavojimenez.chorekeeper.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -24,6 +27,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -55,6 +60,29 @@ public class MyChoresFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+
+        final GlobalVar globalVariables = (GlobalVar) getActivity().getApplicationContext();
+        List<Chore> chores = globalVariables.getChores();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String userid = user.getUid();
+        int i;
+        if(chores!=null)
+        {
+            for(i=0;i<chores.size();i++)
+            {
+                if(chores.get(i).getOwner().equals(userid));
+                {
+                    //add to the list for viewing
+                    //this chore belong to the current user
+                }
+            }
+
+        }
+
+
+
+
         return view;
     }
 

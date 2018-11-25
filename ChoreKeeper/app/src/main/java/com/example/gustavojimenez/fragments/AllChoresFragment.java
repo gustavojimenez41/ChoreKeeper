@@ -45,6 +45,7 @@ public class AllChoresFragment extends Fragment {
     ArrayList<String> chore_arr = new ArrayList<String>();
     ArrayList<String> points_arr = new ArrayList<String>();
     ArrayList<String> descript_arr = new ArrayList<String>();
+    ArrayList<String> id_arr = new ArrayList<String>();
 
     private static final String TAG = "AllChores:";
 
@@ -108,7 +109,7 @@ public class AllChoresFragment extends Fragment {
                                 globalVariables.addHouseChore(newchore);
                             }
 
-                            String value = dataSnapshot.getKey();
+                            String id = dataSnapshot.getKey();
 
                             //retrieve all the attributes
                             String name = (String) dataSnapshot.child("name").getValue();
@@ -129,6 +130,7 @@ public class AllChoresFragment extends Fragment {
                             chore_arr.add(name);
                             points_arr.add(stringPoints);
                             descript_arr.add(comments);
+                            id_arr.add(id);
 
 
 
@@ -149,9 +151,11 @@ public class AllChoresFragment extends Fragment {
                                     String name = chore_arr.get(i);
                                     String points2 = points_arr.get(i);
                                     String comment = descript_arr.get(i);
+                                    String id = id_arr.get(i);
                                     editIntent.putExtra("name",name);
                                     editIntent.putExtra("points", points2);
                                     editIntent.putExtra("comment",comment);
+                                    editIntent.putExtra("id", id);
                                     startActivity(editIntent);
                                 }
                             });
@@ -193,6 +197,8 @@ public class AllChoresFragment extends Fragment {
         FirebaseUser user = auth.getCurrentUser();
         dref = FirebaseDatabase.getInstance().getReference("Users/"+user.getUid()+"/houseCode");
         dref.addListenerForSingleValueEvent(sethousecode);
+
+
 
         // Inflate the layout for this fragment
         return view;

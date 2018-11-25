@@ -46,6 +46,7 @@ public class RewardsFragment extends Fragment {
     ArrayList<String> rewards_arr = new ArrayList<String>();
     ArrayList<String> points_arr = new ArrayList<String>();
     ArrayList<String> description_arr = new ArrayList<String>();
+    ArrayList<String> id_arr = new ArrayList<String>();
 
 
 
@@ -124,6 +125,7 @@ public class RewardsFragment extends Fragment {
                                 rewards_arr.add(name);
                                 points_arr.add(stringPoints);
                                 description_arr.add(comments);
+                                id_arr.add(rewardID);
                             }
 //
 
@@ -137,9 +139,11 @@ public class RewardsFragment extends Fragment {
                                     String name = rewards_arr.get(i);
                                     String points2 = points_arr.get(i);
                                     String comment = description_arr.get(i);
+                                    String id = id_arr.get(i);
                                     editIntent.putExtra("name",name);
                                     editIntent.putExtra("points", points2);
                                     editIntent.putExtra("comment",comment);
+                                    editIntent.putExtra("id",id);
                                     startActivity(editIntent);
                                 }
                             });
@@ -193,65 +197,7 @@ public class RewardsFragment extends Fragment {
         return view;
     }
 
-    void redeemReward(String rewardId)
-    {
-        //deciding now to leave the reward in the database because of time constraints
-        //remove point value from the user
-        //when the chore is completed, remove the chore from the database
-        dref = FirebaseDatabase.getInstance().getReference("Rewards/"+rewardId);
 
-        //add the point value of the chore to the users points
-        dref.addListenerForSingleValueEvent(new ValueEventListener()
-        {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot)
-            {
-
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                int rpoints = dataSnapshot.child("points").getValue(int.class);
-
-                DatabaseReference userref = FirebaseDatabase.getInstance().getReference("Users/"+user.getUid());
-                userref.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot)
-                    {
-                        int upoint = dataSnapshot.child("points").getValue(int.class);
-                        if(upoint>=rpoints)
-                        {
-                            upoint -= rpoints;
-                            userref.child("points").setValue(upoint);
-
-                        }
-                        else
-                        {
-
-                            Toast.makeText(getActivity(), "Insufficient points",
-                                    Toast.LENGTH_LONG).show();
-
-                        }
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError Error)
-            {
-                Toast.makeText(getActivity(), "Redeem Reward failed",
-                        Toast.LENGTH_LONG).show();
-
-            }
-        });
-
-    }
     public boolean containsUsername(List<String> list, String name)
     {
         int i = 0;
