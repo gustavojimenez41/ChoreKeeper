@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.gustavojimenez.chorekeeper.AssignChore;
 import com.example.gustavojimenez.chorekeeper.GlobalVar;
 import com.example.gustavojimenez.chorekeeper.R;
 import android.content.Intent;
@@ -54,6 +55,9 @@ import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 public class HomeFragment extends Fragment {
     TextView H_code;
     ArrayList<String> users = new ArrayList<String>();
+    ArrayList<String> chore_arr = new ArrayList<String>();
+    ArrayList<String> points_arr = new ArrayList<String>();
+    ArrayList<String> descript_arr = new ArrayList<String>();
 
     DatabaseReference dref;
     String housecode = null;
@@ -78,6 +82,7 @@ public class HomeFragment extends Fragment {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         Resources res = getResources();
+        Intent editIntent = new Intent(getContext(), UserDetails.class);
         H_code = (TextView) view.findViewById(R.id.H_code);
         listview = view.findViewById(R.id.fragmentMyHomeListView);
         adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1,list);
@@ -133,6 +138,7 @@ public class HomeFragment extends Fragment {
                             String userid = dataSnapshot.getKey();
                             long points = (long) dataSnapshot.child("points").getValue();
                             String username = dataSnapshot.child("uname").getValue(String.class);
+                            String stringPoints = Long.toString(points);
                             if(username == null)
                             {
                                 username = userid;
@@ -142,7 +148,9 @@ public class HomeFragment extends Fragment {
                             {
                                 list.add(username);
                             }
-
+                            chore_arr.add(username);
+                            points_arr.add(stringPoints);
+                           // descript_arr.add(comments);
 
 
                             User newuser = new User(userid,housecode,(int)points, username);
@@ -160,7 +168,19 @@ public class HomeFragment extends Fragment {
                                 globalVariables.addHouseUser(newuser);
                             }
 
+                            listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+                                    String name = chore_arr.get(i);
+                                    String points2 = points_arr.get(i);
+                                    //String comment = descript_arr.get(i);
+                                    editIntent.putExtra("name",name);
+                                    editIntent.putExtra("points", points2);
+                                   // editIntent.putExtra("comment",comment);
+                                    startActivity(editIntent);
+                                }
+                            });
 
                             //this is where you display the data
                         }
