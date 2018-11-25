@@ -7,6 +7,7 @@
 
 
     <color name="black">#000000</color>
+    <color name="text">#000000</color>
     <color name="jet">#222222</color>
     <color name="oil">#333333</color>
     <color name="monsoon">#777777</color>
@@ -15,4 +16,6 @@
     <color name="base">#AAAAAA</color>
     <color name="iron">#CCCCCC</color>
     <color name="white">#FFFFFF</color>
+    <color name="topNav">#2E8B57</color>
+    <color name="background">#E8E8E8</color>
 </resources>

@@ -17,6 +17,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10sp"
             android:layout_marginRight="10sp"
+            android:textColorHint="@color/text"
+            android:textColor="@android:color/black"
             android:ems="10"
             android:hint="Enter Reward Name"
             android:inputType="textPersonName" />
@@ -27,6 +29,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10sp"
             android:layout_marginRight="10sp"
+            android:textColorHint="@color/text"
+            android:textColor="@android:color/black"
             android:ems="10"
             android:hint="Points Worth"
             android:inputType="number" />
@@ -37,6 +41,8 @@
             android:layout_height="100dp"
             android:layout_marginLeft="10sp"
             android:layout_marginRight="10sp"
+            android:textColorHint="@color/text"
+            android:textColor="@android:color/black"
             android:hint="Enter Comments here" />
         <LinearLayout
             android:layout_width="match_parent"
