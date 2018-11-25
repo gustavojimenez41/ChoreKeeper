@@ -47,9 +47,10 @@ public class RewardsFragment extends Fragment {
     ArrayList<String> points_arr = new ArrayList<String>();
     ArrayList<String> description_arr = new ArrayList<String>();
 
-    DatabaseReference dref;
+
 
     private static final String TAG = "Rewards:";
+    DatabaseReference dref;
     ListView listview;
     ArrayList<String> list = new ArrayList<String>();
     ArrayAdapter<String> adapter;
@@ -64,7 +65,7 @@ public class RewardsFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_rewards, container, false);
-        Intent editIntent = new Intent(getContext(), Assign_Reward.class);
+        Intent editIntent = new Intent(getContext(), AssignChore.class);
         createRewards = view.findViewById(R.id.fragmentCreateRewards);
         listview = view.findViewById(R.id.rewardsListView);
         adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1,list);

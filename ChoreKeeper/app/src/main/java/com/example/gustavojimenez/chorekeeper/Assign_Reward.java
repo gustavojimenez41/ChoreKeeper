@@ -21,7 +21,7 @@ public class Assign_Reward extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_assign_chore);
+        setContentView(R.layout.activity_assign__reward);
         final GlobalVar globalVariables = (GlobalVar) getApplicationContext();
         List<User> users =globalVariables.getUsers();
         Intent receivedTent = getIntent();
