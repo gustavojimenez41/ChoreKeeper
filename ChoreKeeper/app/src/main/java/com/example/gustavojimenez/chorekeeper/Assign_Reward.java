@@ -109,6 +109,10 @@ public class Assign_Reward extends AppCompatActivity {
                     DatabaseReference rref = FirebaseDatabase.getInstance().getReference("Rewards/"+rewardId);
                     rref.removeValue();
 
+                    Intent intent = new Intent(Assign_Reward.this, MainActivityFragment.class);
+                    startActivity(intent);
+                    finish();
+
                 }
                 else
                 {
@@ -127,9 +131,7 @@ public class Assign_Reward extends AppCompatActivity {
         });
 
 
-        Intent intent = new Intent(Assign_Reward.this, MainActivityFragment.class);
-        startActivity(intent);
-        finish();
+
 
     }
 

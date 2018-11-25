@@ -70,7 +70,7 @@ public class AssignChore extends AppCompatActivity{
             {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 updateChoreOwner(id, user.getUid());
-                Intent intent = new Intent(AssignChore.this, MyChoresFragment.class);
+                Intent intent = new Intent(AssignChore.this, MainActivityFragment.class);
                 startActivity(intent);
                 finish();
 
@@ -84,6 +84,7 @@ public class AssignChore extends AppCompatActivity{
     //assigns the chore to a user
     public void updateChoreOwner(String choreid, String ownerid)
     {
+
 
         DatabaseReference dref;
 
