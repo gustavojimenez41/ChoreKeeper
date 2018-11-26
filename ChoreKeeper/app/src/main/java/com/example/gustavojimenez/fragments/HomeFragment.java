@@ -128,7 +128,7 @@ public class HomeFragment extends Fragment {
 
 
                         String userhousecode = dataSnapshot.child("houseCode").getValue(String.class);
-                        Log.e(TAG, "checking  user houseCode: " + userhousecode);
+                        //Log.e(TAG, "checking  user houseCode: " + userhousecode);
 
                         if(userhousecode != null && userhousecode.equals(housecode)) {
 
@@ -188,7 +188,7 @@ public class HomeFragment extends Fragment {
                         }
                         else
                         {
-                            Log.e(TAG, "Not the current house");
+                            //Log.e(TAG, "Not the current house");
                         }
 
 

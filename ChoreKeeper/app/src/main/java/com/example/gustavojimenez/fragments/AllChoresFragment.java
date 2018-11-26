@@ -82,7 +82,7 @@ public class AllChoresFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 housecode = dataSnapshot.getValue(String.class);
-                Log.e(TAG, housecode);
+                //Log.e(TAG, housecode);
 
                 dref = FirebaseDatabase.getInstance().getReference("Chores");
                 dref.addChildEventListener(new ChildEventListener() {
@@ -106,6 +106,7 @@ public class AllChoresFragment extends Fragment {
                             final GlobalVar globalVariables = (GlobalVar) getActivity().getApplicationContext();
                             if(globalVariables.getChores()!= null && !globalVariables.getChores().contains(newchore))
                             {
+                                Log.e(TAG, "adding chore");
                                 globalVariables.addHouseChore(newchore);
                             }
 
