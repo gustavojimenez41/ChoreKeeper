@@ -86,7 +86,7 @@ public class Assign_Reward extends AppCompatActivity {
     {
 
         int rpoints = Integer.parseInt(rpointsInt);
-        //deciding now to leave the reward in the database because of time constraints
+
         //remove point value from the user
         //when the chore is completed, remove the chore from the database
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

@@ -67,6 +67,21 @@ public class GlobalVar extends Application
 
     }
 
+    public void removeChore(String id)
+    {
+        if(chores==null)
+            return;
+
+        for(int i=0;i<chores.size();i++)
+        {
+            if(chores.get(i).getID().equals(id))
+            {
+                chores.remove(i);
+                return;
+            }
+        }
+    }
+
 
     private static Context sContext;
 

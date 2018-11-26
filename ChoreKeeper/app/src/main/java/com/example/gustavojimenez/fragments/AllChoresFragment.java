@@ -93,7 +93,7 @@ public class AllChoresFragment extends Fragment {
                         //if not, ignore it
                         String chorehousecode = dataSnapshot.child("housecode").getValue(String.class);
 
-                        Log.e(TAG, "checking housecode: " + chorehousecode);
+                        //Log.e(TAG, "checking housecode: " + chorehousecode);
 
                         if(chorehousecode != null && chorehousecode.equals(housecode))
                         {
