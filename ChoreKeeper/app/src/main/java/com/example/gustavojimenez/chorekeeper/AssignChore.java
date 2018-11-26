@@ -62,7 +62,7 @@ public class AssignChore extends AppCompatActivity{
         id = receivedTent.getStringExtra("id");
 
         textElement.setText(newText);
-        pointelement.setText(point);
+        pointelement.setText("Points Worth: " + point);
         commentelement.setText(comment);
 
 

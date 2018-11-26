@@ -15,18 +15,17 @@ import java.util.List;
 
 public class UserDetails extends AppCompatActivity {
 
-    TextView textElement,pointelement,commentelement;
+    TextView textElement,pointelement;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_assign_chore);
+        setContentView(R.layout.activity_user_details);
         final GlobalVar globalVariables = (GlobalVar) getApplicationContext();
         List<User> users =globalVariables.getUsers();
         Intent receivedTent = getIntent();
         textElement = (TextView) findViewById(R.id.chore_name);
         pointelement = (TextView) findViewById(R.id.points);
-        commentelement = (TextView)findViewById(R.id.comment);
 
 
 
@@ -36,10 +35,8 @@ public class UserDetails extends AppCompatActivity {
         String point, comment;
         newText = receivedTent.getStringExtra("name");
         point = receivedTent.getStringExtra("points");
-        comment = receivedTent.getStringExtra("comment");
         textElement.setText(newText);
-        pointelement.setText(point);
-        commentelement.setText(comment);
+        pointelement.setText("Points: " + point);
 
 
 

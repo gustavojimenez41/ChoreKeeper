@@ -179,18 +179,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if(id == R.id.actionBarSettings)
-            Toast.makeText(this,"works",Toast.LENGTH_SHORT);
-        return super.onOptionsItemSelected(item);
-    }
 }
 

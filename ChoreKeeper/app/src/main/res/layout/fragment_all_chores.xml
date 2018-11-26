@@ -15,7 +15,7 @@
             android:id="@+id/allChoresTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="all chores"
+            android:text="All Chores"
             android:textSize="36sp"
             android:textStyle="bold" />
         <ListView
@@ -24,8 +24,10 @@
             android:layout_height="304dp"/>
         <Button
             android:id="@+id/createChore2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:text="Create Chore" />
     </LinearLayout>
 
